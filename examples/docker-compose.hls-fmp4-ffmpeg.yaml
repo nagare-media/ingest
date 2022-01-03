@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  nagare-ingest:
+    image: ghcr.io/nagare-media/ingest:dev
+    command: /ingest --dev -c /etc/nagare-media/ingest.yaml
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../configs/example.yaml:/etc/nagare-media/ingest.yaml:ro
+
+  ffmpeg:
+    image: ghcr.io/nagare-media/ingest/ffmpeg:tmp
+    build:
+      context: .
+      dockerfile: Dockerfile.ffmpeg
+    command: sh -c "sleep 10s && exec /opt/tasks/run-hls-fmp4-ffmpeg"
+    environment:
+      INGEST_HOST: nagare-ingest:8080
+    volumes:
+      - ../scripts/tasks:/opt/tasks:ro

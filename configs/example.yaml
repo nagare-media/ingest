@@ -1,0 +1,97 @@
+apiVersion: ingest.nagare.media/v1alpha1
+kind: Config
+
+servers:
+  - name: default
+    address: :8080
+    http: {}
+    apps:
+
+      # DASH-IF Interface-1: CMAF Ingest
+
+      - name: cmaf_serve
+        http:
+          host: "**"
+          path: /cmaf
+          cors:
+            allowOrigins: "*"
+            allowMethods: GET,HEAD,OPTIONS
+            allowHeaders: "*"
+            maxAge: 86400
+        genericServe:
+          appRef:
+            name: cmaf
+          volumeRefs:
+            - name: myFs
+
+      - name: cmaf
+        http:
+          host: "**"
+          path: /cmaf
+        cmafIngest:
+          volumeRef:
+            name: myFs
+        functions:
+          - name: manifest
+            manifest:
+              volumeRef:
+                name: myFs
+
+      # DASH-IF Interface-2: DASH and HLS Ingest
+
+      - name: dash_serve
+        http:
+          host: "**"
+          path: /dash
+          cors:
+            allowOrigins: "*"
+            allowMethods: GET,HEAD,OPTIONS
+            allowHeaders: "*"
+            maxAge: 86400
+        genericServe:
+          appRef:
+            name: dash
+          volumeRefs:
+            - name: myMem
+      - name: dash
+        http:
+          host: "**"
+          path: /dash
+        dashAndHlsIngest:
+          volumeRef:
+            name: myMem
+
+      - name: hls_serve
+        http:
+          host: "**"
+          path: /hls
+          cors:
+            allowOrigins: "*"
+            allowMethods: GET,HEAD,OPTIONS
+            allowHeaders: "*"
+            maxAge: 86400
+        genericServe:
+          appRef:
+            name: hls
+          volumeRefs:
+            - name: myMem
+            - name: myFs
+      - name: hls
+        http:
+          host: "**"
+          path: /hls
+        dashAndHlsIngest:
+          volumeRef:
+            name: myMem
+        functions:
+          - name: copy
+            copy:
+              volumeRef:
+                name: myFs
+
+volumes:
+  - name: myMem
+    mem: {}
+  - name: myFs
+    fs:
+      path: /tmp/nagare/ingest/volumes/myFs

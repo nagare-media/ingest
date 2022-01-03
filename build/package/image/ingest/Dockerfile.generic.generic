@@ -1,0 +1,55 @@
+ARG GOVERSION
+FROM --platform=${BUILDPLATFORM} golang:${GOVERSION}-alpine AS build
+
+RUN apk add --no-cache \
+      bash \
+      gawk \
+      make
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+
+# BUILD_DATE changes ofter so move this section down to usage to allow caching
+ARG OS \
+    ARCH \
+    VERSION \
+    GIT_COMMIT \
+    GIT_TREE_STATE \
+    BUILD_DATE
+
+RUN make build-ingest \
+      "OS=${OS}" \
+      "ARCH=${ARCH}" \
+      "VERSION=${VERSION}" \
+      "GIT_COMMIT=${GIT_COMMIT}" \
+      "GIT_TREE_STATE=${GIT_TREE_STATE}" \
+      "BUILD_DATE=${BUILD_DATE}"
+
+FROM gcr.io/distroless/static:latest
+
+ARG OS \
+    ARCH \
+    VERSION \
+    GIT_COMMIT \
+    BUILD_DATE
+
+LABEL maintainer="Matthias Neugebauer <mtneug@mailbox.org>" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.authors="Matthias Neugebauer <mtneug@mailbox.org>" \
+      org.opencontainers.image.url="ghcr.io/nagare-media/ingest" \
+      org.opencontainers.image.documentation="https://nagare.media" \
+      org.opencontainers.image.source="https://github.com/nagare-media/ingest" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}" \
+      org.opencontainers.image.vendor="nagare media" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.title="nagare media ingest" \
+      org.opencontainers.image.description="nagare media ingest implements various HTTP based media ingest protocols" \
+      org.opencontainers.image.base.name="gcr.io/distroless/static:latest"
+
+COPY --from=build "/app/bin/ingest-${VERSION}-${OS}-${ARCH}" /ingest
+
+CMD [ "/ingest" ]

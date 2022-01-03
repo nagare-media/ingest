@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Copyright 2022 The nagare media authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Validation
+
+[ -n "${CMD}" ]            || fatal "mandatory variable \$CMD is empty"
+[ -n "${PKG}" ]            || fatal "mandatory variable \$PKG is empty"
+[ -n "${OS}" ]             || fatal "mandatory variable \$OS is empty"
+[ -n "${ARCH}" ]           || fatal "mandatory variable \$ARCH is empty"
+[ -n "${VERSION}" ]        || fatal "mandatory variable \$VERSION is empty"
+[ -n "${GIT_COMMIT}" ]     || fatal "mandatory variable \$GIT_COMMIT is empty"
+[ -n "${GIT_TREE_STATE}" ] || fatal "mandatory variable \$GIT_TREE_STATE is empty"
+[ -n "${BUILD_DATE}" ]     || fatal "mandatory variable \$BUILD_DATE is empty"
+
+# Variables
+
+export GOOS="${OS}"
+export GOARCH="${ARCH}"
+
+TAGS="
+  netgo
+  osusergo
+"
+
+LDFLAGS="
+  -s -w
+  -extldflags '-static'
+  -X '${PKG}/pkg/version.version=${VERSION}'
+  -X '${PKG}/pkg/version.gitCommit=${GIT_COMMIT}'
+  -X '${PKG}/pkg/version.gitTreeState=${GIT_TREE_STATE}'
+  -X '${PKG}/pkg/version.buildDate=${BUILD_DATE}'
+"
+
+# Main
+
+mkdir -p bin
+
+CGO_ENABLED=0 go build -v \
+  -tags "${TAGS}" \
+  -ldflags "${LDFLAGS}" \
+  -o "bin/${CMD}-${VERSION}-${OS}-${ARCH}" \
+  "./cmd/${CMD}"

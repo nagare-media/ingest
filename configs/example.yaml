@@ -83,11 +83,6 @@ servers:
         dashAndHlsIngest:
           volumeRef:
             name: myMem
-        functions:
-          - name: copy
-            copy:
-              volumeRef:
-                name: myFs
 
 volumes:
   - name: myMem

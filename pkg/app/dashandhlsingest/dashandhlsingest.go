@@ -161,7 +161,8 @@ func (a *dashAndHLSIngest) handleDelete(c *fiber.Ctx) error {
 	if !media.StreamNameRegex.Match([]byte(streamName)) {
 		return http.ErrUnsupportedStreamName
 	}
-	streamName = c.Hostname() + streamName + ".str"
+	streamName = path.Join("/", c.Hostname(), streamName+".str")
+	streamName = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(streamName), http.PathIllegalReplaceChar))
 	log = log.With("stream", streamName)
 
 	// determine file path

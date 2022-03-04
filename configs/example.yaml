@@ -75,7 +75,6 @@ servers:
             name: hls
           volumeRefs:
             - name: myMem
-            - name: myFs
       - name: hls
         http:
           host: "**"

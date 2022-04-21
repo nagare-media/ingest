@@ -3,11 +3,11 @@ version: "3"
 services:
   nagare-ingest:
     image: ghcr.io/nagare-media/ingest:dev
-    command: /ingest --dev -c /etc/nagare-media/ingest.yaml
+    command: /ingest --dev
     ports:
       - "8080:8080"
     volumes:
-      - ../configs/example.yaml:/etc/nagare-media/ingest.yaml:ro
+      - ../configs/example.yaml:/etc/nagare-media/ingest/config.yaml:ro
 
   ffmpeg:
     image: ghcr.io/nagare-media/ingest/ffmpeg:tmp

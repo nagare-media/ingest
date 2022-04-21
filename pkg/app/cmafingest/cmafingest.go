@@ -628,7 +628,7 @@ func (a *cmafIngest) ingestFragments(reader io.Reader, track *media.Track, pathP
 			// TODO: should we measure and report latency? maybe as Prometheus metric?
 			fallthrough
 		case mp4.EmsgBoxStr: // TODO: should we emit events to functions?
-			// we skip decoding these boxes futher as we are not interested in the body
+			// we skip decoding these boxes further as we are not interested in the body
 
 			// these boxes should not be large
 			if hdr.Size >= 1<<32 {

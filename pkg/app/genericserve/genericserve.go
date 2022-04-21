@@ -234,7 +234,7 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 
 		// TODO: add user defined headers
 
-		// flush header when doing chunk transfere encoding
+		// flush header when doing chunked transfer encoding
 		c.Response().ImmediateHeaderFlush = (contentLength < 0)
 		c.Response().SetBodyStream(bodyStreamer, contentLength)
 		c.Status(status)

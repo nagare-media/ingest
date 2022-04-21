@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"unsafe"
 
 	"github.com/gobwas/glob/compiler"
 	"github.com/gobwas/glob/match"
@@ -139,11 +138,7 @@ func (r *rootRouter) Register() {
 		originalPath, ok := c.Locals(http.OriginalPathKey).(string)
 		if !ok {
 			// duplicate string as fiber can manipulate the underlying byte slice
-			// TODO: replace with strings.Clone in Go 1.18
-			fiberPath := c.Path()
-			b := make([]byte, len(fiberPath))
-			copy(b, fiberPath)
-			originalPath = *(*string)(unsafe.Pointer(&b))
+			originalPath = strings.Clone(c.Path())
 			c.Locals(http.OriginalPathKey, originalPath)
 		}
 

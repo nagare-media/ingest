@@ -1,6 +1,6 @@
 module github.com/nagare-media/ingest
 
-go 1.17
+go 1.18
 
 require (
 	github.com/edgeware/mp4ff v0.26.2-0.20220221175904-f448d330b766

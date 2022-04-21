@@ -67,8 +67,8 @@ func New() *cli {
 
 	c.viper.SetConfigName("config")
 	c.viper.SetConfigType("yaml")
-	c.viper.AddConfigPath("/etc/nagare-media/ingest/")
 	c.viper.AddConfigPath(".")
+	c.viper.AddConfigPath("/etc/nagare-media/ingest/")
 
 	return c
 }

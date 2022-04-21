@@ -37,6 +37,8 @@ import (
 )
 
 const (
+	DefaultHTTPHost        = "**"
+	DefaultHTTPPath        = "/"
 	DefaultHTTPNetwork     = "tcp"
 	DefaultHTTPIdleTimeout = 75 * time.Second
 )
@@ -167,12 +169,12 @@ func (s *httpSrv) Register(execCtx server.ExecCtx, app app.App) error {
 	cfg := httpApp.HTTPConfig()
 	if cfg.Host == "" {
 		log.Warn("HTTP Host not set; using '*'")
-		cfg.Host = "*"
+		cfg.Host = DefaultHTTPHost
 	}
 
 	if cfg.Path == "" {
 		log.Warn("HTTP Path not set; using '/'")
-		cfg.Host = "/"
+		cfg.Host = DefaultHTTPPath
 	}
 
 	// add middlewares

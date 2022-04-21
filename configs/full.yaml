@@ -1,0 +1,319 @@
+# Kubernetes object style: namespaced and versioned
+apiVersion: ingest.nagare.media/v1alpha1
+kind: Config
+
+# list of server components that implement basic network functionalities.
+servers:
+  - # name of the server used for references and in logs
+    #
+    # @type string
+    # @format ^[a-zA-Z0-9-_]+$
+    # @required
+    name: default
+
+    # address to bind to
+    #
+    # @type string
+    # @format Go address as documented (https://pkg.go.dev/net#Listen)
+    # @required
+    address: :8080
+
+    # network type to bind to
+    #
+    # @type string
+    # @format tcp | tcp4 | tcp6 : Go network as documented (https://pkg.go.dev/net#Listen)
+    # @default "tcp"
+    network: tcp
+
+    # http indicates that this is an HTTP server
+    http:
+      # idleTimeout controls after wich time idle keepalive connections are terminated
+      #
+      # @type string
+      # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
+      # @default "75s"
+      idleTimeout: 75s
+
+    # list of applications to run on this server implementing ingest protocols
+    apps:
+      - # name of the application used for references and in logs
+        #
+        # @type string
+        # @format ^[a-zA-Z0-9-_]+$
+        # @required
+        name: serve
+
+        # http specific options that are generic for all HTTP based applications
+        http:
+          # host pattern to match requests to this application
+          #
+          # @type string
+          # @format Gulp as documented (https://pkg.go.dev/github.com/gobwas/glob#readme-example)
+          # @default "**"
+          host: "**"
+
+          # path prefix to mount this application to this server
+          #
+          # @type string
+          # @default "/"
+          path: /
+
+          # auth indicates that a middleware for authenticating requests should be configured for this application
+          auth:
+            # basic adds a HTTP Basic Auth as option for authenticating requests for this application
+            basic:
+              # list of users that are allowed to send requests to this application
+              users:
+                - # name of the user
+                  #
+                  # @type string
+                  # @required
+                  name: joe
+
+                  # password of the user
+                  #
+                  # @type string
+                  # @required
+                  password: secure
+
+          # cors indicates that a middleware for CORS preflight requests should be configured for this application
+          cors:
+            # allowOrigins sets the Access-Control-Allow-Origin header
+            #
+            # @type string
+            # @default "*"
+            allowOrigins: "*"
+
+            # allowMethods sets the Access-Control-Allow-Methods header
+            #
+            # @type string
+            # @default "GET,POST,HEAD,PUT,DELETE,PATCH"
+            allowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH"
+
+            # allowHeaders sets the Access-Control-Allow-Headers header
+            #
+            # @type string
+            # @default ""
+            allowHeaders: ""
+
+            # allowCredentials sets the Access-Control-Allow-Credentials header
+            #
+            # @type boolean
+            # @default false
+            allowCredentials: false
+
+            # exposeHeaders sets the Access-Control-Expose-Headers header
+            #
+            # @type string
+            # @default ""
+            exposeHeaders: ""
+
+            # maxAge sets the Access-Control-Max-Age header
+            #
+            # @type int
+            # @default 0
+            maxAge: 0
+
+        # genericServe indicates that this is a generic server application
+        #
+        # mutually exclusive to: cmafIngest, dashAndHlsIngest
+        genericServe:
+          # appRef to the application of which ingested files should be served
+          appRef:
+            # name of the application
+            name: cmaf
+
+          # list of volume references where requested files should be search
+          volumeRefs:
+            - # name of the volume
+              name: mem
+
+          # defaultMIMEType sets the Content-Type header if the file type cannot be determined
+          #
+          # @type string
+          # @format mime type
+          # @default "application/octet-stream"
+          defaultMIMEType:
+
+          # useXAccelHeader sets the X-Accel-Redirect header and leaves sending the file to the upstream reverse proxy
+          #
+          # @type boolean
+          # @default false
+          useXAccelHeader: false
+
+          # useXSendfileHeader sets the X-Sendfile header and leaves sending the file to the upstream reverse proxy
+          #
+          # @type boolean
+          # @default false
+          useXSendfileHeader: false
+
+
+        # cmafIngest indicates that this is a CMAF ingest application
+        #
+        # mutually exclusive to: dashAndHlsIngest, genericServe
+        cmafIngest:
+          # volumeRef to the volume where files should be ingested to
+          volumeRef:
+            # name of the volume
+            name: data
+
+          # streamTimeout cleans up in-memory data structures for this stream after no data is ingested for the configured duration
+          #
+          # @type string
+          # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
+          # @default "2m"
+          streamTimeout: 2m
+
+          # maxManifestSize sets the maximum size of the optional DASH manifest
+          #
+          # @type string
+          # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "5 MB"
+          maxManifestSize: "5 MB"
+
+          # maxHeaderSize sets the maximum size of CMAF headers
+          #
+          # @type string
+          # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "2 KB"
+          maxHeaderSize: "2 KB"
+
+          # maxChunkHeaderSize sets the maximum size of CMAF chunk headers
+          #
+          # @type string
+          # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "2 KB"
+          maxChunkHeaderSize: "2 KB"
+
+          # maxChunkDataSize sets the maximum size of the CMAF chunks mdat box (contains the media samples)
+          #
+          # @type string
+          # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "5 MB"
+          maxChunkDataSize: "5 MB"
+
+        # dashAndHlsIngest indicates that this is a DASH and HLS ingest application
+        #
+        # mutually exclusive to: cmafIngest, genericServe
+        dashAndHlsIngest:
+          # volumeRef to the volume where files should be ingested to
+          volumeRef:
+            # name of the volume
+            name: data
+
+          # streamTimeout cleans up in-memory data structures for this stream after no data is ingested for the configured duration
+          #
+          # @type string
+          # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
+          # @default "2m"
+          streamTimeout: 2m
+
+          # releaseCompleteSegments will wait for the segment to be completely ingested before making it available e.g. for serving
+          #
+          # @type boolean
+          # @default false
+          releaseCompleteSegments: false
+
+          # requestBodyBufferSize sets the size of the buffer used for copying ingested segments
+          #
+          # @type string
+          # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "32 KB"
+          requestBodyBufferSize: 32 KB
+
+          # maxManifestSize sets the maximum size of the HSL or DASH manifest
+          #
+          # @type string
+          # @format file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "5 MB"
+          maxManifestSize: 5 MB
+
+          # maxSegmentSize sets the maximum size of a segment
+          #
+          # @type string
+          # @format file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "15 MB"
+          maxSegmentSize: 15 MB
+
+          # maxEncryptionKeySize sets the maximum size of an encryption key
+          #
+          # @type string
+          # @format file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+          # @default "2 MB"
+          maxEncryptionKeySize: 2 MB
+
+        # list of functions associated with this application
+        functions:
+          - # name of the function used for references and in logs
+            #
+            # @type string
+            # @format ^[a-zA-Z0-9-_]+$
+            # @required
+            name: func
+
+            # copy indicates that this is a copy function
+            #
+            # mutually exclusive to: manifest
+            copy:
+              # volumeRef to the volume where files should be copied to
+              volumeRef:
+                # name of the volume
+                name: data
+
+            # manifest indicates that this is a manifest function
+            #
+            # mutually exclusive to: copy
+            manifest:
+              # volumeRef to the volume where generated manifests should be stored to
+              volumeRef:
+                # name of the volume
+                name: data
+
+# list of volumes
+volumes:
+  - # name of the volume used for references and in logs
+    #
+    # @type string
+    # @format ^[a-zA-Z0-9-_]+$
+    # @required
+    name: data
+
+    # fs indicates that this is a file system volume
+    #
+    # mutually exclusive to: mem, null
+    fs:
+      # path to the location on the file system where ingested files should be stored#
+      #
+      # @type string
+      # @required
+      path: /mnt/nagare/ingest/volumes/data
+
+      # garbageCollectionPeriode sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
+      #
+      # @type string
+      # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
+      # @default "10s"
+      garbageCollectionPeriode: 10s
+
+    # mem indicates that this is a in-memory volume
+    #
+    # mutually exclusive to: fs, null
+    mem:
+      # blockSize sets the block size files are split up into
+      #
+      # @type string
+      # @format file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
+      # @default "4 KB"
+      blockSize: 4 KB
+
+      # garbageCollectionPeriode sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
+      #
+      # @type string
+      # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
+      # @default "10s"
+      garbageCollectionPeriode: 10s
+
+    # null indicates that this is a null volume
+    #
+    # mutually exclusive to: fs, mem
+    null: {}

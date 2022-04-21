@@ -62,7 +62,7 @@ func New() *cli {
 	c.flagSet.BoolVarP(&c.printUsageFlag, "help", "h", false, "Print this help message and exit")
 	c.flagSet.BoolVarP(&c.printVersionFlag, "version", "V", false, "Print the version number and exit")
 	c.flagSet.BoolVar(&c.devModeFlag, "dev", false, "Run in developer mode")
-	c.flagSet.StringVarP(&c.logLevelFlag, "log-level", "l", "", "Log level of the interpreter (\"debug\", \"info\", \"warn\", \"error\", \"panic\", \"fatal\")")
+	c.flagSet.StringVarP(&c.logLevelFlag, "log-level", "l", "", "Log level (\"debug\", \"info\", \"warn\", \"error\", \"panic\", \"fatal\")")
 	c.flagSet.StringVarP(&c.configFlag, "config", "c", "", "Path to the config file")
 
 	c.viper.SetConfigName("config")

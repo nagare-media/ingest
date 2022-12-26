@@ -1,5 +1,5 @@
 ARG GOVERSION
-FROM --platform=${BUILDPLATFORM} golang:${GOVERSION}-alpine AS build
+FROM --platform=${BUILDPLATFORM} docker.io/golang:${GOVERSION}-alpine AS build
 
 RUN apk add --no-cache \
       bash \

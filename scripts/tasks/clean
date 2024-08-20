@@ -18,4 +18,5 @@
 
 rm -rf \
   ./bin/ \
+  ./out/ \
   ./tmp/

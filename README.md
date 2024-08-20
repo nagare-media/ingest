@@ -24,7 +24,7 @@ $ docker run --rm \
 
 ## Building
 
-`nagare media ingest` requires Go 1.18. The code does not depend on specific operating systems or architectures (apart for some optimization) and should compile to many of Go's compile targets. It is known to run well on `darwin/amd64` and `linux/amd64`. Binaries for various systems are provided for each release. By default, the local system architecture is used when compiling the code. You can cross-compile by passing `OS` and `ARCH` to `make`:
+`nagare media ingest` does not depend on specific operating systems or architectures (apart from some optimization) and should compile to many of Go's compile targets. It is known to run well on `darwin/amd64` and `linux/amd64`. Binaries for various systems are provided for each release. By default, the local system architecture is used when compiling the code. You can cross-compile by passing `OS` and `ARCH` to `make`:
 
 ```sh
 # build binaries for local system architecture
@@ -55,7 +55,7 @@ Running `make` or `make help` will output all available targets together with a 
 
 ## Configuration
 
-`nagare media ingest` is mainly configured through a YAML configuration file. By default, a file named `config.yaml` is search for in the current directory and in `/etc/nagare-media/ingest/`. The path can be overwritten with the `-c, --config` CLI flag. The `--dev` flag will activate a special developer mode (currently it only influences the logging output). The following additional flags are available:
+`nagare media ingest` is mainly configured through a YAML configuration file. By default, a file named `config.yaml` is searched for in the current directory and in `/etc/nagare-media/ingest/`. The path can be overwritten with the `-c, --config` CLI flag. The `--dev` flag will activate a special developer mode (currently it only influences the logging output). The following additional flags are available:
 
 ```sh
 $ ingest --help
@@ -73,7 +73,7 @@ A usable example configuration is provided with [`config/samples/nagare-media/ex
 
 We provide three examples for the [DASH-IF Ingest protocol](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html). To run these examples, either `docker-compose` or [FFmpeg](https://ffmpeg.org/) needs to be installed locally. The examples are known to work with FFmpeg 5.0.1 running on Linux and macOS.
 
-All example scenarios encode, package and send media with FFmpeg using the `testsrc2` and `sine` filters to generate test patterns for the video and audio tracks, respectively. Additionally, the wall-clock time at the encoding is burned into the video. We encode the video in a 720p and 360p variant which is also burned into the video as text, respectively. The GOP length is set to 2 seconds with a constant frame rate of 25. Target bit rates are 2500 KBit/s and 600 KBit/s for the 720p and 360p video tracks, respectively. The audio track is encoded with constant 64 KBit/s.
+All example scenarios encode, package and send media with FFmpeg using the `testsrc2` and `sine` filters to generate test patterns for the video and audio tracks, respectively. Additionally, the wall-clock time at the encoding is burned into the video. We encode the video in 720p and 360p variants which is also burned into the video as text, respectively. The GOP length is set to 2 seconds with a constant frame rate of 25. Target bit rates are 2500 KBit/s and 600 KBit/s for the 720p and 360p video tracks, respectively. The audio track is encoded with constant 64 KBit/s.
 
 The exact `ffmpeg` command for the three scenarios is available in the `scripts/tasks/run-*-ffmpeg` scripts and can be adjusted there.
 

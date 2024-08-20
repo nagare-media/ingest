@@ -1,7 +1,7 @@
 # `nagare media ingest`
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/nagare-media/ingest?style=flat-square)](https://goreportcard.com/report/github.com/nagare-media/ingest)
-![Go Version](https://img.shields.io/badge/go%20version-%3E=1.19-61CFDD.svg?style=flat-square)
+![Go Version](https://img.shields.io/badge/go%20version-%3E=1.23-61CFDD.svg?style=flat-square)
 [![PkgGoDev](https://pkg.go.dev/badge/mod/github.com/nagare-media/ingest)](https://pkg.go.dev/github.com/nagare-media/ingest)
 
 Implementation of various (HTTP based) media ingest protocols.

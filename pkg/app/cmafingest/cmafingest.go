@@ -423,44 +423,45 @@ func (a *cmafIngest) trackPrefixPath(c *fiber.Ctx, track *media.Track) string {
 // Ingest CMAF header.
 //
 // CMAF header boxes (ISO/IEC 23000-19:2020 7.3.1 Table 3)
-//   ftyp 1
-//   moov 1
-//       mvhd 1
-//       trak 1
-//           tkhd 1
-//           edts CR (edit list)
-//               elst 1
-//           mdia 1
-//               mdhd 1
-//               hdlr 1
-//               elng 0/1
-//               minf 1
-//                   vmhd CR (video)
-//                   smhd CR (audio)
-//                   sthd CR (subtitles)
-//                   dinf 1
-//                       dref 1
-//                   stbl 1
-//                       stsd 1
-//                           sinf CR (encryption)
-//                               frma 1
-//                               schm 1
-//                               schi 1
-//                               schi 1
-//                                   tenc 1
-//                       stts 1
-//                       stsc 1
-//                       stsz/stz2 1
-//                       stco 1
-//                       sgpd CR
-//                       stss CR
-//           udta 0/1
-//               cprt *
-//               kind *
-//       mvex 1
-//           mehd 0/1
-//           trex 1
-//       pssh * (encryption)
+//
+//	ftyp 1
+//	moov 1
+//		mvhd 1
+//		trak 1
+//			tkhd 1
+//			edts CR (edit list)
+//				elst 1
+//			mdia 1
+//				mdhd 1
+//				hdlr 1
+//				elng 0/1
+//				minf 1
+//					vmhd CR (video)
+//					smhd CR (audio)
+//					sthd CR (subtitles)
+//					dinf 1
+//						dref 1
+//					stbl 1
+//						stsd 1
+//							sinf CR (encryption)
+//								frma 1
+//								schm 1
+//								schi 1
+//								schi 1
+//									tenc 1
+//						stts 1
+//						stsc 1
+//						stsz/stz2 1
+//						stco 1
+//						sgpd CR
+//						stss CR
+//			udta 0/1
+//				cprt *
+//				kind *
+//		mvex 1
+//			mehd 0/1
+//			trex 1
+//		pssh * (encryption)
 func (a *cmafIngest) ingestHeader(reader io.Reader, track *media.Track, pathPrefix string) error {
 	log := a.getLoggerWithTrack(track)
 
@@ -541,22 +542,23 @@ func (a *cmafIngest) ingestHeader(reader io.Reader, track *media.Track, pathPref
 // Ingest CMAF segments.
 //
 // CMAF chunk boxes (ISO/IEC 23000-19:2020 7.3.1 Table 5 and 7.3.2.3 Table 7)
-//   styp 0/1
-//   prft 0/1
-//   emsg *
-//   moof 1
-//      mfhd 1
-//      traf 1
-//         tfhd 1
-//         tfdt 1
-//         trun 1
-//         senc 0/1
-//         saio CR
-//         saiz CR
-//         sbqp *
-//         sgpd *
-//         subs CR
-//   mdat 1
+//
+//	styp 0/1
+//	prft 0/1
+//	emsg *
+//	moof 1
+//		mfhd 1
+//		traf 1
+//			tfhd 1
+//			tfdt 1
+//			trun 1
+//			senc 0/1
+//			saio CR
+//			saiz CR
+//			sbqp *
+//			sgpd *
+//			subs CR
+//	mdat 1
 func (a *cmafIngest) ingestFragments(reader io.Reader, track *media.Track, pathPrefix string) error {
 	track.RLock()
 	if !track.Initialized {

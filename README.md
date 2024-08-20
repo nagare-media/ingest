@@ -13,11 +13,11 @@ Original repo: <https://github.com/nagare-media/ingest>
 ```sh
 # run locally
 $ make clean build
-$ bin/ingest-dev-* -c configs/example.yaml
+$ bin/ingest-dev-* -c config/samples/nagare-media/example.yaml
 
 # using Docker
 $ docker run --rm \
-    -v $PWD/configs/example.yaml:/etc/nagare-media/ingest/config.yaml:ro \
+    -v $PWD/config/samples/nagare-media/example.yaml:/etc/nagare-media/ingest/config.yaml:ro \
     -p "8080:8080" \
     ghcr.io/nagare-media/ingest:dev
 ```
@@ -67,7 +67,7 @@ Usage: ingest [options]
   -V, --version            Print the version number and exit
 ```
 
-A usable example configuration is provided with [`configs/example.yaml`](configs/example.yaml). The [`configs/full.yaml`](configs/full.yaml) configuration file lists and documents all available options and is meant as a reference.
+A usable example configuration is provided with [`config/samples/nagare-media/example.yaml`](config/samples/nagare-media/example.yaml). The [`config/samples/nagare-media/full.yaml`](config/samples/nagare-media/full.yaml) configuration file lists and documents all available options and is meant as a reference.
 
 ## Examples
 
@@ -84,10 +84,10 @@ This example uses the `hls` FFmpeg muxer to output a DASH-IF Interface-2 complia
 
 ```sh
 # using Docker
-$ docker-compose -f examples/docker-compose.hls-fmp4-ffmpeg.yaml up --build
+$ docker-compose -f config/samples/nagare-media/docker-compose.hls-fmp4-ffmpeg.yaml up --build
 
 # run locally (in two shells)
-$ make clean build; bin/ingest-dev-* --dev -c configs/example.yaml
+$ make clean build; bin/ingest-dev-* --dev -c config/samples/nagare-media/example.yaml
 $ make run-hls-fmp4-ffmpeg
 ```
 
@@ -97,10 +97,10 @@ This example uses the `dash` FFmpeg muxer to output a DASH-IF Interface-2 compli
 
 ```sh
 # using Docker
-$ docker-compose -f examples/docker-compose.ll-dash-ffmpeg.yaml up --build
+$ docker-compose -f config/samples/nagare-media/docker-compose.ll-dash-ffmpeg.yaml up --build
 
 # run locally (in two shells)
-$ make clean build; bin/ingest-dev-* --dev -c configs/example.yaml
+$ make clean build; bin/ingest-dev-* --dev -c config/samples/nagare-media/example.yaml
 $ make run-ll-dash-ffmpeg
 ```
 
@@ -110,10 +110,10 @@ This example uses the normal `mp4` FFmpeg muxer to output a DASH-IF Interface-1 
 
 ```sh
 # using Docker
-$ docker-compose -f examples/docker-compose.cmaf-long-upload-ffmpeg.yaml up --build
+$ docker-compose -f config/samples/nagare-media/docker-compose.cmaf-long-upload-ffmpeg.yaml up --build
 
 # run locally (in two shells)
-$ make clean build; bin/ingest-dev-* --dev -c configs/example.yaml
+$ make clean build; bin/ingest-dev-* --dev -c config/samples/nagare-media/example.yaml
 $ make run-cmaf-long-upload-ffmpeg
 ```
 

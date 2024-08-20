@@ -23,7 +23,6 @@ servers:
             name: cmaf
           volumeRefs:
             - name: myFs
-
       - name: cmaf
         http:
           host: "**"

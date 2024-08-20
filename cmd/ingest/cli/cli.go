@@ -30,10 +30,10 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
+	"github.com/nagare-media/ingest/internal/pkg/version"
 	"github.com/nagare-media/ingest/pkg/config"
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
 	"github.com/nagare-media/ingest/pkg/controllers"
-	"github.com/nagare-media/ingest/pkg/version"
 )
 
 type cli struct {

@@ -31,7 +31,7 @@ var printTmpl = template.Must(template.New("print").Parse(`{{.Name}}:
   Platform:       {{.Platform}}
 `))
 
-// Info holds version and build information. The fields are largly the same as in the `k8s.io/kubernetes/pkg/version`
+// Info holds version and build information. The fields are largely the same as in the `k8s.io/kubernetes/pkg/version`
 // package of the Kubernetes project.
 type Info struct {
 	// Name of the versioned object.

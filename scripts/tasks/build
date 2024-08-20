@@ -38,10 +38,10 @@ TAGS="
 LDFLAGS="
   -s -w
   -extldflags '-static'
-  -X '${PKG}/pkg/version.version=${VERSION}'
-  -X '${PKG}/pkg/version.gitCommit=${GIT_COMMIT}'
-  -X '${PKG}/pkg/version.gitTreeState=${GIT_TREE_STATE}'
-  -X '${PKG}/pkg/version.buildDate=${BUILD_DATE}'
+  -X '${PKG}/internal/pkg/version.version=${VERSION}'
+  -X '${PKG}/internal/pkg/version.gitCommit=${GIT_COMMIT}'
+  -X '${PKG}/internal/pkg/version.gitTreeState=${GIT_TREE_STATE}'
+  -X '${PKG}/internal/pkg/version.buildDate=${BUILD_DATE}'
 "
 
 # Main

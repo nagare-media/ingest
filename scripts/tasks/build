@@ -36,13 +36,17 @@ TAGS="
 "
 
 LDFLAGS="
-  -s -w
   -extldflags '-static'
   -X '${PKG}/internal/pkg/version.version=${VERSION}'
   -X '${PKG}/internal/pkg/version.gitCommit=${GIT_COMMIT}'
   -X '${PKG}/internal/pkg/version.gitTreeState=${GIT_TREE_STATE}'
   -X '${PKG}/internal/pkg/version.buildDate=${BUILD_DATE}'
 "
+
+# only strip debug infos when not building with skaffold
+if [ -z "${SKAFFOLD_GO_GCFLAGS}" ]; then
+  LDFLAGS="-s -w ${LDFLAGS}"
+fi
 
 # Main
 
@@ -51,5 +55,6 @@ mkdir -p bin
 CGO_ENABLED=0 go build -v \
   -tags "${TAGS}" \
   -ldflags "${LDFLAGS}" \
+  -gcflags "${SKAFFOLD_GO_GCFLAGS}" \
   -o "bin/${CMD}-${VERSION}-${OS}-${ARCH}" \
   "./cmd/${CMD}"

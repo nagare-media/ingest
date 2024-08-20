@@ -20,26 +20,32 @@
 [ -n "${IMAGE_REGISTRY}" ] || fatal "mandatory variable \$IMAGE_REGISTRY is empty"
 [ -n "${IMAGE_TAG}" ]      || fatal "mandatory variable \$IMAGE_TAG is empty"
 [ -n "${GOVERSION}" ]      || fatal "mandatory variable \$GOVERSION is empty"
-[ -n "${OS}" ]             || fatal "mandatory variable \$OS is empty"
-[ -n "${ARCH}" ]           || fatal "mandatory variable \$ARCH is empty"
 [ -n "${VERSION}" ]        || fatal "mandatory variable \$VERSION is empty"
 [ -n "${GIT_COMMIT}" ]     || fatal "mandatory variable \$GIT_COMMIT is empty"
 [ -n "${GIT_TREE_STATE}" ] || fatal "mandatory variable \$GIT_TREE_STATE is empty"
 [ -n "${BUILD_DATE}" ]     || fatal "mandatory variable \$BUILD_DATE is empty"
+[ -n "${BUILDX_OUTPUT}" ]  || fatal "mandatory variable \$BUILDX_OUTPUT is empty"
 
 # Variables
 
-DOCKERFILE="build/package/image/${IMAGE}/Dockerfile.${OS}.${ARCH}"
+if [ -n "${PLATFORMS}" ]; then
+  DOCKERFILE="build/package/image/${IMAGE}/Dockerfile.generic.generic"
+  BUILDX_PLATFORMS="${PLATFORMS}"
+else
+  [ -n "${OS}" ]   || fatal "mandatory variable \$OS is empty; alternativly set \$PLATFORMS"
+  [ -n "${ARCH}" ] || fatal "mandatory variable \$ARCH is empty; alternativly set \$PLATFORMS"
+  DOCKERFILE="build/package/image/${IMAGE}/Dockerfile.${OS}.${ARCH}"
+  BUILDX_PLATFORMS="${OS}/${ARCH}"
+fi
 
-[ -e "${DOCKERFILE}" ] || fatal "${OS}/${ARCH} is unsupported"
+[ -e "${DOCKERFILE}" ] || fatal "selected platform is unsupported"
 
 # Main
 
 docker buildx build \
-  --platform "${OS}/${ARCH}" \
+  ${BUILDX_OUTPUT} \
+  --platform "${BUILDX_PLATFORMS}" \
   --build-arg "GOVERSION=${GOVERSION}" \
-  --build-arg "OS=${OS}" \
-  --build-arg "ARCH=${ARCH}" \
   --build-arg "VERSION=${VERSION}" \
   --build-arg "GIT_COMMIT=${GIT_COMMIT}" \
   --build-arg "GIT_TREE_STATE=${GIT_TREE_STATE}" \

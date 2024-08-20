@@ -14,18 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
-set -o pipefail
+# Main
 
-TASK="$1"
-ROOT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
-TASKS_DIR="${ROOT_DIR}/scripts/tasks"
-
-log()   { >&2 echo "=> $*"; }
-warn()  { log "warning: $*"; }
-fatal() { log "fatal: $*"; exit 1; }
-
-log "${TASK} start"
-cd "${ROOT_DIR}"
-. "${TASKS_DIR}/${TASK}"
-log "${TASK} end"
+go fmt ./...

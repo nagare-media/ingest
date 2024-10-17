@@ -18,5 +18,8 @@ updates:
       all:
         patterns: [ "*" ]
         update-types: [ "patch", "minor" ]
+      major:
+        patterns: [ "*" ]
+        update-types: [ "major" ]
     labels:
       - kind/dependency

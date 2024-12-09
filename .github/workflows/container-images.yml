@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: set up Docker
-        uses: crazy-max/ghaction-setup-docker@v3
+        uses: docker/setup-docker-action@v4
         with:
           # containerd image store allows to load multi-platform images
           daemon-config: |

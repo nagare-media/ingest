@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.19.0
-	github.com/valyala/fasthttp v1.57.0
+	github.com/valyala/fasthttp v1.58.0
 	go.uber.org/zap v1.27.0
 )
 
@@ -38,8 +38,8 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

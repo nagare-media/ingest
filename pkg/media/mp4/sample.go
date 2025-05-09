@@ -19,7 +19,7 @@ package mp4
 import (
 	"errors"
 
-	mp4ff "github.com/edgeware/mp4ff/mp4"
+	mp4ff "github.com/Eyevinn/mp4ff/mp4"
 
 	"github.com/nagare-media/ingest/pkg/media"
 )

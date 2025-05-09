@@ -19,7 +19,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/mitchellh/mapstructure"
+	"github.com/go-viper/mapstructure/v2"
 	"github.com/spf13/viper"
 
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"

@@ -17,7 +17,7 @@ limitations under the License.
 package mp4
 
 import (
-	mp4ff "github.com/edgeware/mp4ff/mp4"
+	mp4ff "github.com/Eyevinn/mp4ff/mp4"
 )
 
 func CheckMoovCMAF(moov *mp4ff.MoovBox) error {

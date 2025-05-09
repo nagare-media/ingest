@@ -23,7 +23,7 @@ import (
 	"io"
 	"sync"
 
-	mp4ff "github.com/edgeware/mp4ff/mp4"
+	mp4ff "github.com/Eyevinn/mp4ff/mp4"
 )
 
 var (

@@ -25,7 +25,7 @@ import (
 	"sync"
 	"time"
 
-	mp4ff "github.com/edgeware/mp4ff/mp4"
+	mp4ff "github.com/Eyevinn/mp4ff/mp4"
 	"github.com/gofiber/fiber/v2"
 	"github.com/inhies/go-bytesize"
 	"go.uber.org/zap"
@@ -821,7 +821,7 @@ func (a *cmafIngest) getLoggerWithTrack(track *media.Track) *zap.SugaredLogger {
 
 func fragmentFileName(moof *mp4ff.MoofBox) string {
 	// TODO: use CMAF file extensions
-	baseMediaDecodeTime := moof.Traf.Tfdt.BaseMediaDecodeTime
+	baseMediaDecodeTime := moof.Traf.Tfdt.BaseMediaDecodeTime()
 	return fmt.Sprintf(FragmentFileNameTmpl, baseMediaDecodeTime)
 }
 

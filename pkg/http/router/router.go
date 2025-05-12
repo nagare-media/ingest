@@ -28,7 +28,7 @@ const (
 )
 
 type Router interface {
-	Use(args ...interface{}) Router
+	Use(args ...any) Router
 
 	Get(path string, handlers ...fiber.Handler) Router
 	Head(path string, handlers ...fiber.Handler) Router

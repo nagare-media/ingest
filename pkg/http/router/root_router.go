@@ -203,13 +203,13 @@ func (r *rootRouter) Register() {
 	})
 }
 
-func (r *rootRouter) Use(args ...interface{}) Router {
+func (r *rootRouter) Use(args ...any) Router {
 	if len(args) == 0 {
 		panic("missing handler")
 	}
 
 	handlerIdx := 0
-	newArgs := make([]interface{}, len(r.handlers)+1)
+	newArgs := make([]any, len(r.handlers)+1)
 
 	// add path
 	if len(args) == 1 {

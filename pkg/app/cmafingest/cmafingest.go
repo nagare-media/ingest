@@ -100,7 +100,7 @@ func New(cfg v1alpha1.App) (app.App, error) {
 		eventStream: event.NewStream(),
 		streams:     make(map[string]*media.Presentation),
 		chunkHdrBufferPool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return make([]byte, cfg.CMAFIngest.MaxChunkHeaderSize)
 			},
 		},

@@ -67,7 +67,7 @@ func New(cfg v1alpha1.Volume) (volume.Volume, error) {
 		files:  make(map[string]*file),
 		stopGC: make(chan struct{}),
 		blockPool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return &block{
 					data: make([]byte, 0, cfg.Memory.BlockSize),
 				}

@@ -96,7 +96,7 @@ func New(cfg v1alpha1.App) (app.App, error) {
 		eventStream: event.NewStream(),
 		streams:     make(map[string]*media.Presentation),
 		bufferPool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return make([]byte, cfg.DASHAndHLSIngest.RequestBodyBufferSize)
 			},
 		},

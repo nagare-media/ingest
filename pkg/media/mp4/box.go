@@ -44,7 +44,7 @@ const (
 
 // TODO: benchmark this as buffer is really small
 var hdrDecBufPool = sync.Pool{
-	New: func() interface{} {
+	New: func() any {
 		return make([]byte, hdrDecBufSize)
 	},
 }

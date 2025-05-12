@@ -19,7 +19,7 @@ package pool
 import "sync"
 
 var CopyBuf = sync.Pool{
-	New: func() interface{} {
+	New: func() any {
 		return make([]byte, 4096)
 	},
 }

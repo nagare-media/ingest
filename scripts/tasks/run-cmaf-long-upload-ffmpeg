@@ -60,7 +60,7 @@ ffmpeg -hide_banner \
     -multiple_requests 1 \
     -chunked_post 1 \
     -send_expect_100 1 \
-    -headers "DASH-IF-Ingest: 1.1" \
+    -headers "DASH-IF-Ingest: 1.2" \
     -headers "Host: localhost:8080" \
     -content_type "" \
     -icy 0 \
@@ -96,7 +96,7 @@ ffmpeg -hide_banner \
     -multiple_requests 1 \
     -chunked_post 1 \
     -send_expect_100 1 \
-    -headers "DASH-IF-Ingest: 1.1" \
+    -headers "DASH-IF-Ingest: 1.2" \
     -headers "Host: localhost:8080" \
     -content_type "" \
     -icy 0 \
@@ -122,7 +122,7 @@ ffmpeg -hide_banner \
     -multiple_requests 1 \
     -chunked_post 1 \
     -send_expect_100 1 \
-    -headers "DASH-IF-Ingest: 1.1" \
+    -headers "DASH-IF-Ingest: 1.2" \
     -headers "Host: localhost:8080" \
     -content_type "" \
     -icy 0 \

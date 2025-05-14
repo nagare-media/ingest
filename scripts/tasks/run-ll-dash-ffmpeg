@@ -82,7 +82,7 @@ ffmpeg -hide_banner \
     -http_opts "
       chunked_post=1:
       send_expect_100=1:
-      headers='DASH-IF-Ingest: 1.1':
+      headers='DASH-IF-Ingest: 1.2':
       headers='Host: localhost:8080':
       icy=0:
       reconnect=1:

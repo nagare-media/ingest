@@ -72,6 +72,6 @@ ffmpeg -hide_banner \
     -http_persistent 1 \
     -timeout 6 \
     -ignore_io_errors 1 \
-    -headers "DASH-IF-Ingest: 1.1" \
+    -headers "DASH-IF-Ingest: 1.2" \
     -headers "Host: localhost:8080" \
     "http://$INGEST_HOST/hls/example.str/%v.m3u8"

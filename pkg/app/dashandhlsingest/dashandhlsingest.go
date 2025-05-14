@@ -30,19 +30,13 @@ import (
 
 	"github.com/nagare-media/ingest/pkg/app"
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
+	dashifIngest "github.com/nagare-media/ingest/pkg/dashif/ingest"
 	"github.com/nagare-media/ingest/pkg/event"
 	"github.com/nagare-media/ingest/pkg/http"
 	"github.com/nagare-media/ingest/pkg/http/router"
 	"github.com/nagare-media/ingest/pkg/media"
 	"github.com/nagare-media/ingest/pkg/mime"
 	"github.com/nagare-media/ingest/pkg/volume"
-)
-
-const (
-	DASH_IFVersionHeader  = "DASH-IF-Ingest"
-	DASH_IFDefaultVersion = DASH_IFVersion1_1
-	DASH_IFVersion1_0     = "1.0"
-	DASH_IFVersion1_1     = "1.1"
 )
 
 var (
@@ -145,8 +139,10 @@ func (a *dashAndHLSIngest) handleCheckDASHIFVersion(c *fiber.Ctx) error {
 	log := a.execCtx.Logger()
 
 	// DASH-IF-Ingest is optional
-	protoVer := c.Get(DASH_IFVersionHeader, DASH_IFDefaultVersion)
-	if protoVer != DASH_IFVersion1_0 && protoVer != DASH_IFVersion1_1 {
+	protoVer := c.Get(dashifIngest.VersionHeader, dashifIngest.VersionLatest)
+	if protoVer != dashifIngest.Version1_0 &&
+		protoVer != dashifIngest.Version1_1 &&
+		protoVer != dashifIngest.Version1_2 {
 		log.With("error", http.ErrUnsupportedProtocolVersion).Warnf("client connected with unsupported DASH-IF version '%s'", protoVer)
 		return http.ErrUnsupportedProtocolVersion
 	}

@@ -51,8 +51,8 @@ var (
 	DefaultConfig = v1alpha1.CMAFIngest{
 		StreamTimeout:      2 * time.Minute,
 		MaxManifestSize:    5 * bytesize.MB,
-		MaxHeaderSize:      2 * bytesize.KB,
-		MaxChunkHeaderSize: 2 * bytesize.KB,
+		MaxHeaderSize:      10 * bytesize.KB,
+		MaxChunkHeaderSize: 10 * bytesize.KB,
 		MaxChunkMdatSize:   5 * bytesize.MB,
 	}
 )

@@ -175,15 +175,15 @@ servers:
           #
           # @type string
           # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
-          # @default "2 KB"
-          maxHeaderSize: "2 KB"
+          # @default "10 KB"
+          maxHeaderSize: "10 KB"
 
           # maxChunkHeaderSize sets the maximum size of CMAF chunk headers
           #
           # @type string
           # @type file size as documented (https://pkg.go.dev/github.com/inhies/go-bytesize#example-Parse)
-          # @default "2 KB"
-          maxChunkHeaderSize: "2 KB"
+          # @default "10 KB"
+          maxChunkHeaderSize: "10 KB"
 
           # maxChunkDataSize sets the maximum size of the CMAF chunks mdat box (contains the media samples)
           #

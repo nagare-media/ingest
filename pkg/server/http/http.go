@@ -168,12 +168,12 @@ func (s *httpSrv) Register(execCtx server.ExecCtx, app app.App) error {
 	// check config and set defaults
 	cfg := httpApp.HTTPConfig()
 	if cfg.Host == "" {
-		log.Warn("HTTP Host not set; using '*'")
+		log.Warnf("HTTP Host not set; using '%s'", DefaultHTTPHost)
 		cfg.Host = DefaultHTTPHost
 	}
 
 	if cfg.Path == "" {
-		log.Warn("HTTP Path not set; using '/'")
+		log.Warnf("HTTP Path not set; using '%s'", DefaultHTTPPath)
 		cfg.Host = DefaultHTTPPath
 	}
 

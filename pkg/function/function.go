@@ -43,7 +43,7 @@ type ExecCtx interface {
 }
 
 func CheckAndSetDefaults(cfg *v1alpha1.Function) error {
-	if !NameRegex.Match([]byte(cfg.Name)) {
+	if !NameRegex.MatchString(cfg.Name) {
 		return errors.New("function: Name invalid")
 	}
 	return nil

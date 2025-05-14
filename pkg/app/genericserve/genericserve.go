@@ -109,7 +109,7 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 	// determine file path
 	httpPath := path.Join("/", c.Params("+")) // Join will also clean path
 	prefixPath := path.Join(a.execCtx.PathPrefix(a.cfg.GenericServe.AppRef.Name), c.Hostname())
-	prefixPath = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(prefixPath), http.PathIllegalReplaceChar))
+	prefixPath = http.PathIllegalCharsRegex.ReplaceAllString(prefixPath, http.PathIllegalReplaceStr)
 	filePath := path.Join(prefixPath, httpPath)
 	fileExt := path.Ext(filePath)
 
@@ -171,9 +171,9 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 
 		// Content-Range
 		if contentLength >= 0 {
-			reqRange := c.Get(fiber.HeaderRange)
-			if reqRange != "" {
-				startPos, endPos, err := fasthttp.ParseByteRange([]byte(reqRange), contentLength)
+			reqRange := c.Request().Header.Peek(fiber.HeaderRange)
+			if len(reqRange) != 0 {
+				startPos, endPos, err := fasthttp.ParseByteRange(reqRange, contentLength)
 				if err != nil {
 					return fiber.ErrRequestedRangeNotSatisfiable
 				}

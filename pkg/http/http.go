@@ -42,9 +42,9 @@ var (
 )
 
 var (
-	UploadPathRegex        = regexp.MustCompile("^/[^,;:?'\"[\\]{}@*\\\\&#%`^+<=>|~$\\x00-\\x1F\\x7F\\t\\n\\f\\r ]+$")
-	PathIllegalCharsRegex  = regexp.MustCompile("[,;:?'\"[\\]{}@*\\\\&#%`^+<=>|~$\\x00-\\x1F\\x7F\\t\\n\\f\\r ]")
-	PathIllegalReplaceChar = []byte("_")
+	UploadPathRegex       = regexp.MustCompile("^/[^,;:?'\"[\\]{}@*\\\\&#%`^+<=>|~$\\x00-\\x1F\\x7F\\t\\n\\f\\r ]+$")
+	PathIllegalCharsRegex = regexp.MustCompile("[,;:?'\"[\\]{}@*\\\\&#%`^+<=>|~$\\x00-\\x1F\\x7F\\t\\n\\f\\r ]")
+	PathIllegalReplaceStr = "_"
 )
 
 var (

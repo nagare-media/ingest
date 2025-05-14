@@ -168,19 +168,19 @@ func (a *cmafIngest) handleCheckDASHIFVersion(c *fiber.Ctx) error {
 func (a *cmafIngest) handleSwitchingSetTrackUpload(c *fiber.Ctx) error {
 	// validate path segments
 	streamName := c.Params("name")
-	if !media.StreamNameRegex.Match([]byte(streamName)) {
+	if !media.StreamNameRegex.MatchString(streamName) {
 		return http.ErrUnsupportedStreamName
 	}
 	streamName = path.Join("/", c.Hostname(), streamName+".str")
-	streamName = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(streamName), http.PathIllegalReplaceChar))
+	streamName = http.PathIllegalCharsRegex.ReplaceAllString(streamName, http.PathIllegalReplaceStr)
 
 	switchingSetName := c.Params("+1")
-	if !media.SwitchingSetNameRegex.Match([]byte(switchingSetName)) {
+	if !media.SwitchingSetNameRegex.MatchString(switchingSetName) {
 		return http.ErrUnsupportedSwitchingSetName
 	}
 
 	trackName := path.Join("/", c.Params("+2")) // Join will also clean path
-	if !media.TrackNameRegex.Match([]byte(trackName)) {
+	if !media.TrackNameRegex.MatchString(trackName) {
 		return http.ErrUnsupportedTrackName
 	}
 
@@ -417,7 +417,7 @@ func (a *cmafIngest) trackPrefixPath(c *fiber.Ctx, track *media.Track) string {
 		track.SwitchingSet.Name,
 		track.Name,
 	)
-	return string(http.PathIllegalCharsRegex.ReplaceAll([]byte(prefixPath), http.PathIllegalReplaceChar))
+	return http.PathIllegalCharsRegex.ReplaceAllString(prefixPath, http.PathIllegalReplaceStr)
 }
 
 // Ingest CMAF header.

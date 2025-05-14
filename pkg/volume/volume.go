@@ -88,7 +88,7 @@ type Registry interface {
 }
 
 func CheckAndSetDefaults(cfg *v1alpha1.Volume) error {
-	if !NameRegex.Match([]byte(cfg.Name)) {
+	if !NameRegex.MatchString(cfg.Name) {
 		return errors.New("volume: Name invalid")
 	}
 	return nil

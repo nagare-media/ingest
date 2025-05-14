@@ -158,20 +158,20 @@ func (a *dashAndHLSIngest) handleDelete(c *fiber.Ctx) error {
 	log := a.execCtx.Logger()
 
 	streamName := c.Params("name")
-	if !media.StreamNameRegex.Match([]byte(streamName)) {
+	if !media.StreamNameRegex.MatchString(streamName) {
 		return http.ErrUnsupportedStreamName
 	}
 	streamName = path.Join("/", c.Hostname(), streamName+".str")
-	streamName = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(streamName), http.PathIllegalReplaceChar))
+	streamName = http.PathIllegalCharsRegex.ReplaceAllString(streamName, http.PathIllegalReplaceStr)
 	log = log.With("stream", streamName)
 
 	// determine file path
 	uploadPath := path.Join("/", c.Params("+")) // Join will also clean path
-	if !http.UploadPathRegex.Match([]byte(uploadPath)) {
+	if !http.UploadPathRegex.MatchString(uploadPath) {
 		return http.ErrUnsupportedUploadPath
 	}
 	prefixPath := path.Join(a.execCtx.PathPrefix(), streamName)
-	prefixPath = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(prefixPath), http.PathIllegalReplaceChar))
+	prefixPath = http.PathIllegalCharsRegex.ReplaceAllString(prefixPath, http.PathIllegalReplaceStr)
 	filePath := path.Join(prefixPath, uploadPath)
 
 	// get volume
@@ -195,20 +195,20 @@ func (a *dashAndHLSIngest) handleUpload(c *fiber.Ctx) error {
 	log := a.execCtx.Logger()
 
 	streamName := c.Params("name")
-	if !media.StreamNameRegex.Match([]byte(streamName)) {
+	if !media.StreamNameRegex.MatchString(streamName) {
 		return http.ErrUnsupportedStreamName
 	}
 	streamName = path.Join("/", c.Hostname(), streamName+".str")
-	streamName = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(streamName), http.PathIllegalReplaceChar))
+	streamName = http.PathIllegalCharsRegex.ReplaceAllString(streamName, http.PathIllegalReplaceStr)
 	log = log.With("stream", streamName)
 
 	// determine file path
 	uploadPath := path.Join("/", c.Params("+")) // Join will also clean path
-	if !http.UploadPathRegex.Match([]byte(uploadPath)) {
+	if !http.UploadPathRegex.MatchString(uploadPath) {
 		return http.ErrUnsupportedUploadPath
 	}
 	prefixPath := path.Join(a.execCtx.PathPrefix(), streamName)
-	prefixPath = string(http.PathIllegalCharsRegex.ReplaceAll([]byte(prefixPath), http.PathIllegalReplaceChar))
+	prefixPath = http.PathIllegalCharsRegex.ReplaceAllString(prefixPath, http.PathIllegalReplaceStr)
 	filePath := path.Join(prefixPath, uploadPath)
 
 	// check file extension

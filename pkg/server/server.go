@@ -40,7 +40,7 @@ type ExecCtx interface {
 }
 
 func CheckAndSetDefaults(cfg *v1alpha1.Server) error {
-	if !NameRegex.Match([]byte(cfg.Name)) {
+	if !NameRegex.MatchString(cfg.Name) {
 		return errors.New("server: Name invalid")
 	}
 	if cfg.Address == "" {

@@ -16,7 +16,9 @@
 
 # Main
 
-INGEST_HOST=${INGEST_HOST:-localhost:8080}
+INGEST_HOST=${INGEST_HOST:-"http://localhost:8080"}
+
+SEG_DURATION=6
 
 ffmpeg -hide_banner \
   -re -f lavfi -i "
@@ -61,11 +63,11 @@ ffmpeg -hide_banner \
     -hls_delete_threshold 1 \
     -hls_start_number_source epoch \
     -hls_fmp4_init_filename "init-%v.mp4" \
-    -hls_segment_filename "http://$INGEST_HOST/hls/example.str/chunk-stream-%v-%010d.mp4" \
+    -hls_segment_filename "$INGEST_HOST/hls/example.str/chunk-stream-%v-%010d.mp4" \
     -hls_flags "+append_list+delete_segments+discont_start+program_date_time+independent_segments-temp_file" \
     -var_stream_map "a:0,name:audio-64k,agroup:audio,default:yes v:0,name:video-720p,agroup:audio v:1,name:video-360p,agroup:audio" \
     \
-    -hls_time 6 \
+    -hls_time "$SEG_DURATION" \
     -hls_segment_type fmp4 \
     -hls_segment_options "movflags=+cmaf+dash+delay_moov+skip_sidx+skip_trailer" \
     \
@@ -74,4 +76,4 @@ ffmpeg -hide_banner \
     -ignore_io_errors 1 \
     -headers "DASH-IF-Ingest: 1.2" \
     -headers "Host: localhost:8080" \
-    "http://$INGEST_HOST/hls/example.str/%v.m3u8"
+    "$INGEST_HOST/hls/example.str/%v.m3u8"

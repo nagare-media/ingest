@@ -16,7 +16,10 @@
 
 # Main
 
-INGEST_HOST=${INGEST_HOST:-localhost:8080}
+INGEST_HOST=${INGEST_HOST:-"http://localhost:8080"}
+
+SEG_DURATION=30
+FRAG_DURATION=1
 
 ffmpeg -hide_banner \
   -re -f lavfi -i "
@@ -61,8 +64,8 @@ ffmpeg -hide_banner \
       -init_seg_name 'init-stream$RepresentationID$.$ext$' \
       -media_seg_name 'chunk-stream$RepresentationID$-$Number$.$ext$' \
     -adaptation_sets \
-      "id=0,seg_duration=8,frag_type=duration,frag_duration=1,streams=v
-       id=1,seg_duration=8,frag_type=duration,frag_duration=1,streams=a" \
+      "id=0,seg_duration=$SEG_DURATION,frag_type=duration,frag_duration=$FRAG_DURATION,streams=v
+       id=1,seg_duration=$SEG_DURATION,frag_type=duration,frag_duration=$FRAG_DURATION,streams=a" \
     -utc_timing_url "https://time.akamai.com?iso&amp;ms" \
     \
     -streaming 1 \
@@ -90,4 +93,4 @@ ffmpeg -hide_banner \
       reconnect_on_network_error=1:
       reconnect_on_http_error=4xx,5xx:
       reconnect_delay_max=2" \
-  "http://$INGEST_HOST/dash/example.str/manifest.mpd"
+  "$INGEST_HOST/dash/example.str/manifest.mpd"

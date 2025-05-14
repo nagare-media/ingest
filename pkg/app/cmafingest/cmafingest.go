@@ -197,7 +197,7 @@ func (a *cmafIngest) handleSwitchingSetTrackUpload(c *fiber.Ctx) error {
 	}
 	reqReader := c.Context().RequestBodyStream()
 
-	// TODO: add support for gzip contenet encoding
+	// TODO: add support for gzip content encoding
 
 	pathPrefix := a.trackPrefixPath(c, track)
 

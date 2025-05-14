@@ -324,7 +324,7 @@ func (a *dashAndHLSIngest) handleUpload(c *fiber.Ctx) error {
 		ea := fileWriter.Abort()
 		e = event.NewFileEvent(event.FileAbortedEvent, file)
 		a.eventStream.Pub(e)
-		// ignore aborte error, e.g. if written in place; it's already done
+		// ignore abort error, e.g. if written in place; it's already done
 		if err == fiber.ErrRequestEntityTooLarge {
 			// TODO: DASH-IF strictly does not allow for 413; maybe switch to more general 400?
 			return err

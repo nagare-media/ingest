@@ -219,7 +219,7 @@ func (f *file) AcquireReader() (volume.FileReader, error) {
 
 func (f *file) AcquireWriter(inPlace bool) (volume.FileWriter, error) {
 	f.writeMtx.Lock()
-	// Unlock called by close
+	// Unlock called by writer's commit or abort
 
 	blk := f.fs.blockPool.Get().(*block)
 	sb := &superBlock{
@@ -377,7 +377,8 @@ func (fr *fileReader) Seek(offset int64, whence int) (int64, error) {
 		return 0, errors.New("Seek: invalid offset")
 	}
 	if offset > fr.superBlk.size {
-		// TODO: is this corret Seek behavior?
+		// TODO: seek while inPlace writing?
+		// TODO: is this correct Seek behavior?
 		offset = fr.superBlk.size
 	}
 

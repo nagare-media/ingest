@@ -46,6 +46,8 @@ type ExecCtx struct {
 	functionCtrl *functionController
 }
 
+var _ app.ExecCtx = &ExecCtx{}
+
 func (c *ExecCtx) Logger() *zap.SugaredLogger        { return c.log }
 func (c *ExecCtx) IngestCtrl() *ingestController     { return c.ingestCtrl }
 func (c *ExecCtx) ServerCtrl() *serverController     { return c.serverCtrl }

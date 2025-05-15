@@ -25,6 +25,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/nagare-media/ingest/internal/pool"
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
 	"github.com/nagare-media/ingest/pkg/volume"
 )
@@ -325,6 +326,30 @@ func (fr *fileReader) Size() int64 {
 	return s.Size()
 }
 
+func (fr *fileReader) WriteTo(w io.Writer) (int64, error) {
+	// fast pass
+	// When writing to TCP connection and reader is a file, sendfile system call will be used.
+	// This is also true if w is bufio.Writer (as used by fasthttp), but only if the buffer is empty.
+	if rf, ok := w.(io.ReaderFrom); ok {
+		// handle: no writer
+		if fr.fw == nil {
+			return rf.ReadFrom(fr.fd)
+		}
+
+		// handle: done writer
+		select {
+		case <-fr.fw.notifyWriteDone:
+			return rf.ReadFrom(fr.fd)
+		default:
+		}
+	}
+
+	// handle: active writer => slow path
+	copyBuf := pool.CopyBuf.Get().([]byte)
+	defer pool.CopyBuf.Put(copyBuf) // nolint
+	return io.CopyBuffer(w, &withoutWriteTo{fr}, copyBuf)
+}
+
 func (fr *fileReader) Read(p []byte) (n int, err error) {
 	// handle: no writer
 	if fr.fw == nil {
@@ -548,4 +573,15 @@ func (fw *fileWriter) Abort() error {
 	fw.file = nil
 	fw.fd = nil
 	return nil
+}
+
+// withoutWriteTo implements io.Reader without the WriteTo method.
+type withoutWriteTo struct {
+	r io.Reader
+}
+
+var _ io.Reader = &withoutWriteTo{}
+
+func (r *withoutWriteTo) Read(p []byte) (n int, err error) {
+	return r.r.Read(p)
 }

@@ -187,7 +187,7 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 				}
 
 				contentLength = endPos - startPos + 1
-				bodyStreamer = io.LimitReader(bodyStreamer, int64(contentLength))
+				bodyStreamer = io.LimitReader(fileReader, int64(contentLength))
 				c.Response().Header.SetContentRange(startPos, endPos, contentLength)
 				status = fiber.StatusPartialContent
 			}

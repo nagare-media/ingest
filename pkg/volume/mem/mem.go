@@ -127,6 +127,7 @@ func (m *mem) Deinit(execCtx volume.ExecCtx) error {
 // RunGC releases blocks that are no longer referenced to a sync.Pool instance for blocks. Actual freeing of memory is
 // implemented by sync.Pool and Go's GC.
 func (m *mem) RunGC(execCtx volume.ExecCtx) {
+	// TODO: locking filesMtx prevents opening files potentially for some time
 	m.filesMtx.Lock()
 	defer m.filesMtx.Unlock()
 

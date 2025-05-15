@@ -128,6 +128,7 @@ func (fs *fs) Deinit(execCtx volume.ExecCtx) error {
 }
 
 func (fs *fs) RunGC(execCtx volume.ExecCtx) {
+	// TODO: locking filesMtx prevents opening files potentially for some time
 	fs.filesMtx.Lock()
 	defer fs.filesMtx.Unlock()
 

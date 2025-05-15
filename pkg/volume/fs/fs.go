@@ -39,6 +39,12 @@ var (
 	}
 )
 
+var closedCh = make(chan struct{})
+
+func init() {
+	close(closedCh)
+}
+
 type fs struct {
 	cfg v1alpha1.Volume
 
@@ -421,7 +427,7 @@ func (fr *fileReader) WriteDone() <-chan struct{} {
 	if fr.fw != nil {
 		return fr.fw.notifyWriteDone
 	}
-	return nil
+	return closedCh
 }
 
 type fileWriter struct {

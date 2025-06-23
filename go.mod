@@ -6,7 +6,7 @@ toolchain go1.24.3
 
 require (
 	github.com/Eyevinn/mp4ff v0.48.0
-	github.com/go-viper/mapstructure/v2 v2.2.1
+	github.com/go-viper/mapstructure/v2 v2.3.0
 	github.com/gobwas/glob v0.2.3
 	github.com/gofiber/fiber/v2 v2.52.8
 	github.com/google/uuid v1.6.0

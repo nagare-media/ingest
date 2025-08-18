@@ -27,7 +27,7 @@ jobs:
       IMAGE_PLATFORMS: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: set up Docker
         uses: docker/setup-docker-action@v4

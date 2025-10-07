@@ -103,7 +103,7 @@ func (fs *fs) Init(execCtx volume.ExecCtx) error {
 		for {
 			select {
 			case <-fs.stopGC:
-				// fs.Deinit was called
+				// fs.Finalize was called
 				fs.files = nil
 				fs.pendingGCList = nil
 				return
@@ -117,14 +117,14 @@ func (fs *fs) Init(execCtx volume.ExecCtx) error {
 	return nil
 }
 
-func (fs *fs) Deinit(execCtx volume.ExecCtx) error {
+func (fs *fs) Finalize(execCtx volume.ExecCtx) error {
 	log := execCtx.Logger()
-	log.Info("deinitialize fs volume")
+	log.Info("finalizing fs volume")
 
 	close(fs.stopGC)
 	// references cleared when returning from GC
 
-	log.Info("fs volume deinitialized")
+	log.Info("fs volume finalized")
 	return nil
 }
 

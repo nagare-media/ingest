@@ -37,7 +37,7 @@ var (
 type Volume interface {
 	Config() v1alpha1.Volume
 	Init(execCtx ExecCtx) error
-	Deinit(execCtx ExecCtx) error
+	Finalize(execCtx ExecCtx) error
 
 	Open(path string) (File, error)
 	OpenCreate(path string) (File, error)

@@ -25,6 +25,7 @@ import (
 	"time"
 
 	"github.com/inhies/go-bytesize"
+
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
 	"github.com/nagare-media/ingest/pkg/volume"
 )
@@ -96,7 +97,7 @@ func (m *mem) Init(execCtx volume.ExecCtx) error {
 		for {
 			select {
 			case <-m.stopGC:
-				// m.Deinit was called
+				// m.Finalize was called
 				m.files = nil
 				m.pendingGCList = nil
 				return
@@ -110,17 +111,17 @@ func (m *mem) Init(execCtx volume.ExecCtx) error {
 	return nil
 }
 
-// Deinit volume.
+// Finalize volume.
 //
 // The volume must not be used afterwards.
-func (m *mem) Deinit(execCtx volume.ExecCtx) error {
+func (m *mem) Finalize(execCtx volume.ExecCtx) error {
 	log := execCtx.Logger()
-	log.Info("deinitialize mem volume")
+	log.Info("finalizing mem volume")
 
 	close(m.stopGC)
 	// references cleared when returning from GC
 
-	log.Info("mem volume deinitialized")
+	log.Info("mem volume finalized")
 	return nil
 }
 

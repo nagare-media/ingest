@@ -47,10 +47,10 @@ func (v *null) Init(execCtx volume.ExecCtx) error {
 	return nil
 }
 
-func (v *null) Deinit(execCtx volume.ExecCtx) error {
+func (v *null) Finalize(execCtx volume.ExecCtx) error {
 	log := execCtx.Logger()
-	log.Info("deinitialize null volume")
-	log.Info("null volume deinitialized")
+	log.Info("finalizing null volume")
+	log.Info("null volume finalized")
 	return nil
 }
 

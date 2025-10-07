@@ -1,8 +1,6 @@
 module github.com/nagare-media/ingest
 
-go 1.24
-
-toolchain go1.24.3
+go 1.25
 
 require (
 	github.com/Eyevinn/mp4ff v0.49.0

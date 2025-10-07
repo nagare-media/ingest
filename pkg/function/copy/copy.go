@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"sync"
 
 	"github.com/nagare-media/ingest/internal/pool"
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
@@ -57,28 +58,22 @@ func (fn *copy) Exec(ctx context.Context, execCtx function.ExecCtx) error {
 	fn.vol = vol
 
 	eventStream := execCtx.App().EventStream().Sub()
+	defer execCtx.App().EventStream().Desub(eventStream)
+
+	wg := &sync.WaitGroup{}
 
 	for {
 		select {
 		case <-ctx.Done():
-			// TODO: cleanup
+			// wait for all copies to finish
+			wg.Wait()
 			return nil
 
 		case es := <-eventStream:
 			switch e := es.(type) {
 			case *event.FileEvent:
-				if e.Type == event.FileStartEvent {
-					go fn.handleCopy(e.File)
-				}
-
-			case *event.InitSegmentEvent:
-				if e.Type == event.InitSegmentStartEvent {
-					go fn.handleCopy(e.File)
-				}
-
-			case *event.FragmentEvent:
-				if e.Type == event.FragmentStartEvent {
-					go fn.handleCopy(e.File)
+				if e.Type == event.FileCommittedEvent {
+					wg.Go(func() { fn.handleCopy(e.File) })
 				}
 			}
 		}

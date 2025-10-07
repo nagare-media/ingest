@@ -71,7 +71,7 @@ func New(app *fiber.App) *rootRouter {
 
 func (r *rootRouter) Host(hostPattern string) Router {
 	if strings.HasPrefix(r.prefix, HostRoutesPrefix) {
-		panic("tried to register a new host on a host router")
+		panic("BUG: tried to register a new host on a host router")
 	}
 
 	hostPrefix, ok := r.hostMap.toPrefix[hostPattern]
@@ -85,7 +85,7 @@ func (r *rootRouter) Host(hostPattern string) Router {
 
 		hostAST, err := syntax.Parse(hostPattern)
 		if err != nil {
-			panic("host pattern invalid")
+			panic("BUG: host pattern invalid")
 		}
 
 		if len(hostAST.Children) == 1 && hostAST.Children[0].Kind == ast.KindText {
@@ -97,7 +97,7 @@ func (r *rootRouter) Host(hostPattern string) Router {
 
 			matcher, err := compiler.Compile(hostAST, []rune{'.'})
 			if err != nil {
-				panic("host pattern could not be compiled")
+				panic("BUG: host pattern could not be compiled")
 			}
 			r.hostMap.toGlobMatcher[hostPattern] = matcher
 
@@ -205,7 +205,7 @@ func (r *rootRouter) Register() {
 
 func (r *rootRouter) Use(args ...any) Router {
 	if len(args) == 0 {
-		panic("missing handler")
+		panic("BUG: missing handler")
 	}
 
 	handlerIdx := 0

@@ -82,7 +82,7 @@ type GenericServe struct {
 	AppRef      Reference   `mapstructure:"appRef"`
 	VolumesRefs []Reference `mapstructure:"volumeRefs"`
 
-	DefaultMIMEType    string `mapstructure:"defaultMIMEType,omitempty"`
+	DefaultContentType string `mapstructure:"defaultContentType,omitempty"`
 	UseXAccelHeader    bool   `mapstructure:"useXAccelHeader,omitempty"`
 	UseXSendfileHeader bool   `mapstructure:"useXSendfileHeader,omitempty"`
 }

@@ -128,12 +128,12 @@ servers:
             - # name of the volume
               name: mem
 
-          # defaultMIMEType sets the Content-Type header if the file type cannot be determined
+          # defaultContentType sets the Content-Type header if the file type cannot be determined
           #
           # @type string
-          # @format mime type
+          # @format media type
           # @default "application/octet-stream"
-          defaultMIMEType:
+          defaultContentType:
 
           # useXAccelHeader sets the X-Accel-Redirect header and leaves sending the file to the upstream reverse proxy
           #

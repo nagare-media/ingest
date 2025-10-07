@@ -44,7 +44,7 @@ type genericServe struct {
 
 var (
 	DefaultConfig = v1alpha1.GenericServe{
-		DefaultMIMEType:    mime.ApplicationOctetStream,
+		DefaultContentType: mime.ApplicationOctetStream,
 		UseXAccelHeader:    false,
 		UseXSendfileHeader: false,
 	}
@@ -196,7 +196,7 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 		// Content-Type
 		contentType := mime.PreferredTypeExt(fileExt)
 		if contentType == "" {
-			contentType = a.cfg.GenericServe.DefaultMIMEType
+			contentType = a.cfg.GenericServe.DefaultContentType
 		}
 		c.Response().Header.SetContentType(contentType)
 

@@ -53,6 +53,10 @@ var (
 		return ok && inInternalRedirect
 	}
 
+	NextHandler = func(c *fiber.Ctx) error {
+		return c.Next()
+	}
+
 	NoContentHandler = func(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNoContent)
 	}

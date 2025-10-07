@@ -93,6 +93,7 @@ func (fn *manifest) Exec(ctx context.Context, execCtx function.ExecCtx) error {
 	fn.appPathPrefix = execCtx.PathPrefix()
 
 	eventStream := execCtx.App().EventStream().Sub()
+	defer execCtx.App().EventStream().Desub(eventStream)
 
 	for {
 		select {

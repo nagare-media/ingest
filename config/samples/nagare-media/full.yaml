@@ -288,12 +288,12 @@ volumes:
       # @required
       path: /mnt/nagare/ingest/volumes/data
 
-      # garbageCollectionPeriode sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
+      # garbageCollectionPeriod sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
       #
       # @type string
       # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
       # @default "10s"
-      garbageCollectionPeriode: 10s
+      garbageCollectionPeriod: 10s
 
     # mem indicates that this is a in-memory volume
     #
@@ -306,12 +306,12 @@ volumes:
       # @default "4 KB"
       blockSize: 4 KB
 
-      # garbageCollectionPeriode sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
+      # garbageCollectionPeriod sets the period after which a garbage collection is executed that cleans up cached in-memory file structures
       #
       # @type string
       # @format Go duration as documented (https://pkg.go.dev/time#ParseDuration)
       # @default "10s"
-      garbageCollectionPeriode: 10s
+      garbageCollectionPeriod: 10s
 
     # null indicates that this is a null volume
     #

@@ -34,13 +34,13 @@ type Volume struct {
 type NullVolume struct{}
 
 type MemoryVolume struct {
-	BlockSize                bytesize.ByteSize `mapstructure:"blockSize,omitempty"`
-	GarbageCollectionPeriode time.Duration     `mapstructure:"garbageCollectionPeriode,omitempty"`
+	BlockSize               bytesize.ByteSize `mapstructure:"blockSize,omitempty"`
+	GarbageCollectionPeriod time.Duration     `mapstructure:"garbageCollectionPeriod,omitempty"`
 }
 
 type FileSystemVolume struct {
-	Path                     string        `mapstructure:"path"`
-	GarbageCollectionPeriode time.Duration `mapstructure:"garbageCollectionPeriode,omitempty"`
+	Path                    string        `mapstructure:"path"`
+	GarbageCollectionPeriod time.Duration `mapstructure:"garbageCollectionPeriod,omitempty"`
 }
 
 type S3Volume struct {

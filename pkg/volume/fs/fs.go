@@ -36,7 +36,7 @@ const (
 
 var (
 	DefaultConfig = v1alpha1.FileSystemVolume{
-		GarbageCollectionPeriode: 10 * time.Second,
+		GarbageCollectionPeriod: 10 * time.Second,
 	}
 )
 
@@ -65,8 +65,8 @@ func New(cfg v1alpha1.Volume) (volume.Volume, error) {
 		return nil, errors.New("fs.New: Path not set")
 	}
 
-	if cfg.FileSystem.GarbageCollectionPeriode <= 0 {
-		cfg.FileSystem.GarbageCollectionPeriode = DefaultConfig.GarbageCollectionPeriode
+	if cfg.FileSystem.GarbageCollectionPeriod <= 0 {
+		cfg.FileSystem.GarbageCollectionPeriod = DefaultConfig.GarbageCollectionPeriod
 	}
 
 	fs := &fs{
@@ -98,7 +98,7 @@ func (fs *fs) Init(execCtx volume.ExecCtx) error {
 	}
 
 	go func() {
-		t := time.NewTicker(fs.cfg.FileSystem.GarbageCollectionPeriode)
+		t := time.NewTicker(fs.cfg.FileSystem.GarbageCollectionPeriod)
 		defer t.Stop()
 		for {
 			select {

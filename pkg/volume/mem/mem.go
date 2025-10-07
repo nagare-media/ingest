@@ -35,8 +35,8 @@ const (
 
 var (
 	DefaultConfig = v1alpha1.MemoryVolume{
-		BlockSize:                4 * bytesize.KB,
-		GarbageCollectionPeriode: 10 * time.Second,
+		BlockSize:               4 * bytesize.KB,
+		GarbageCollectionPeriod: 10 * time.Second,
 	}
 )
 
@@ -58,8 +58,8 @@ func New(cfg v1alpha1.Volume) (volume.Volume, error) {
 	if cfg.Memory.BlockSize <= 0 {
 		cfg.Memory.BlockSize = DefaultConfig.BlockSize
 	}
-	if cfg.Memory.GarbageCollectionPeriode <= 0 {
-		cfg.Memory.GarbageCollectionPeriode = DefaultConfig.GarbageCollectionPeriode
+	if cfg.Memory.GarbageCollectionPeriod <= 0 {
+		cfg.Memory.GarbageCollectionPeriod = DefaultConfig.GarbageCollectionPeriod
 	}
 
 	m := &mem{
@@ -91,7 +91,7 @@ func (m *mem) Init(execCtx volume.ExecCtx) error {
 	log.Info("initialize mem volume")
 
 	go func() {
-		t := time.NewTicker(m.cfg.Memory.GarbageCollectionPeriode)
+		t := time.NewTicker(m.cfg.Memory.GarbageCollectionPeriod)
 		defer t.Stop()
 		for {
 			select {

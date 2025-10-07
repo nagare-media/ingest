@@ -34,7 +34,6 @@ type CopyFunction struct {
 }
 
 type CleanupFunction struct {
-	Schedule   string        `mapstructure:"schedule"`
 	VolumeRefs []Reference   `mapstructure:"volumeRefs"`
 	Files      []string      `mapstructure:"files,omitempty"`
 	Age        time.Duration `mapstructure:"age,omitempty"`

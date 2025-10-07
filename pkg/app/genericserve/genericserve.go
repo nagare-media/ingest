@@ -163,9 +163,8 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 		// header set below with SetBodyStream
 
 		// ETag
-		etag := ""
 		if contentLength > 0 {
-			etag = fmt.Sprintf("%x-%x", lastModified.UnixMilli(), contentLength)
+			etag := fmt.Sprintf("%x-%x", lastModified.UnixMilli(), contentLength)
 			c.Response().Header.Set(fiber.HeaderETag, etag)
 		}
 

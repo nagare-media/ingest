@@ -65,8 +65,7 @@ func (c *groupController[T]) Exec(ctx context.Context, execCtx *ExecCtx) error {
 
 	for _, ctrl := range c.controllers {
 		ctrl := ctrl
-		wg.Add(1)
-		go func() {
+		wg.Go(func() {
 			err := ctrl.Exec(ctx, execCtx)
 			if err != nil {
 				atomic.AddInt32(&errCount, 1)
@@ -77,8 +76,7 @@ func (c *groupController[T]) Exec(ctx context.Context, execCtx *ExecCtx) error {
 					log.Errorw("sub-controller failed unexpectedly; keep others running", "error", err)
 				}
 			}
-			wg.Done()
-		}()
+		})
 	}
 
 	wg.Wait()

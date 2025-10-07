@@ -45,5 +45,5 @@ type ManifestFunction struct {
 }
 
 type CloudEventFunction struct {
-	// TODO:
+	URL string `mapstructure:"url"`
 }

@@ -707,6 +707,8 @@ func (a *cmafIngest) ingestFragments(reader io.Reader, track *media.Track, pathP
 				if err != nil {
 					return err
 				}
+				e = event.NewFragmentEvent(event.FragmentStartEvent, file, track, frag)
+				a.eventStream.Pub(e)
 				log.Debugf("ingest CMAF fragment: %s", fileName)
 			}
 			if fw == nil {

@@ -703,7 +703,7 @@ func (a *cmafIngest) ingestFragments(reader io.Reader, track *media.Track, pathP
 				fileName := fragmentFileName(moof)
 				filePath := path.Join(pathPrefix, fileName)
 				frag = &mp4.Fragment{}
-				file, fw, err = a.openFileWriter(filePath, false)
+				file, fw, err = a.openFileWriter(filePath, true)
 				if err != nil {
 					return err
 				}

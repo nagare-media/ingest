@@ -79,8 +79,8 @@ type CORS struct {
 }
 
 type GenericServe struct {
-	AppRef     Reference   `mapstructure:"appRef"`
-	VolumesRef []Reference `mapstructure:"volumeRefs"`
+	AppRef      Reference   `mapstructure:"appRef"`
+	VolumesRefs []Reference `mapstructure:"volumeRefs"`
 
 	DefaultMIMEType    string `mapstructure:"defaultMIMEType,omitempty"`
 	UseXAccelHeader    bool   `mapstructure:"useXAccelHeader,omitempty"`

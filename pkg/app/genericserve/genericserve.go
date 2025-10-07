@@ -57,10 +57,10 @@ func New(cfg v1alpha1.App) (app.App, error) {
 	if cfg.GenericServe.AppRef.Name == "" {
 		return nil, errors.New("genericserve.New: appRef is missing")
 	}
-	if len(cfg.GenericServe.VolumesRef) == 0 {
+	if len(cfg.GenericServe.VolumesRefs) == 0 {
 		return nil, errors.New("genericserve.New: volumesRef is missing")
 	}
-	for _, vr := range cfg.GenericServe.VolumesRef {
+	for _, vr := range cfg.GenericServe.VolumesRefs {
 		if vr.Name == "" {
 			return nil, errors.New("genericserve.New: some volumesRef have no name")
 		}
@@ -113,7 +113,7 @@ func (a *genericServe) handleGet(c *fiber.Ctx) error {
 	filePath := path.Join(prefixPath, httpPath)
 	fileExt := path.Ext(filePath)
 
-	for _, vRef := range a.cfg.GenericServe.VolumesRef {
+	for _, vRef := range a.cfg.GenericServe.VolumesRefs {
 		vol, ok := a.execCtx.VolumeRegistry().Get(vRef.Name)
 		if !ok {
 			log.Errorf("volume named '%s' not found", vRef.Name)

@@ -25,6 +25,7 @@ const (
 	FileStartEvent
 	FileCommittedEvent
 	FileAbortedEvent
+	FileDeletedEvent
 )
 
 type FileEvent struct {

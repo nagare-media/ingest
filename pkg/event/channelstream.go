@@ -31,7 +31,7 @@ type Stream interface {
 	Pub(e Event)
 	Sub() <-chan Event
 	SubBuf(n int) <-chan Event
-	Desub(ch chan Event)
+	Desub(ch <-chan Event)
 }
 
 type channelStream struct {
@@ -68,13 +68,12 @@ func (cs *channelStream) SubBuf(n int) <-chan Event {
 	return ch
 }
 
-func (cs *channelStream) Desub(ch chan Event) {
+func (cs *channelStream) Desub(ch <-chan Event) {
 	cs.mtx.Lock()
 	defer cs.mtx.Unlock()
-	defer close(ch)
 
 	for i, subCh := range cs.subs {
-		if ch == subCh {
+		if ch == subCh { // TODO: does this work?
 			if i == len(cs.subs)-1 {
 				cs.subs[i] = nil
 				cs.subs = cs.subs[:i]
@@ -83,6 +82,7 @@ func (cs *channelStream) Desub(ch chan Event) {
 				cs.subs[len(cs.subs)-1] = nil
 				cs.subs = cs.subs[:len(cs.subs)-1]
 			}
+			close(subCh)
 			return
 		}
 	}

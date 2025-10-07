@@ -52,8 +52,7 @@ type fs struct {
 	filesMtx sync.RWMutex
 	files    map[string]*file
 
-	stopGC        chan struct{}
-	pendingGCList []*file
+	stopGC chan struct{}
 }
 
 func New(cfg v1alpha1.Volume) (volume.Volume, error) {
@@ -105,7 +104,6 @@ func (fs *fs) Init(execCtx volume.ExecCtx) error {
 			case <-fs.stopGC:
 				// fs.Finalize was called
 				fs.files = nil
-				fs.pendingGCList = nil
 				return
 			case <-t.C:
 				fs.RunGC(execCtx)

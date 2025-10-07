@@ -71,7 +71,7 @@ A usable example configuration is provided with [`config/samples/nagare-media/ex
 
 ## Examples
 
-We provide three examples for the [DASH-IF Ingest protocol](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html). To run these examples, either `docker-compose` or [FFmpeg](https://ffmpeg.org/) needs to be installed locally. The examples are known to work with FFmpeg 5.0.1 running on Linux and macOS.
+We provide three examples for the [DASH-IF Ingest protocol](https://dashif.org/Ingest/). To run these examples, either `docker-compose` or [FFmpeg](https://ffmpeg.org/) needs to be installed locally. The examples are known to work with FFmpeg 5.0.1 running on Linux and macOS.
 
 All example scenarios encode, package and send media with FFmpeg using the `testsrc2` and `sine` filters to generate test patterns for the video and audio tracks, respectively. Additionally, the wall-clock time at the encoding is burned into the video. We encode the video in 720p and 360p variants which is also burned into the video as text, respectively. The GOP length is set to 2 seconds with a constant frame rate of 25. Target bit rates are 2500 KBit/s and 600 KBit/s for the 720p and 360p video tracks, respectively. The audio track is encoded with constant 64 KBit/s.
 

@@ -40,19 +40,22 @@ func (f ControllerFunc) Exec(ctx context.Context, execCtx *ExecCtx) error {
 
 type ExecCtx struct {
 	log          *zap.SugaredLogger
-	ingestCtrl   *ingestController
-	serverCtrl   *serverController
-	appCtrl      *appController
-	functionCtrl *functionController
+	ingestCtrl   IngestController
+	serverCtrl   ServerController
+	appCtrl      AppController
+	functionCtrl FunctionController
 }
 
+var _ volume.ExecCtx = &ExecCtx{}
+var _ server.ExecCtx = &ExecCtx{}
 var _ app.ExecCtx = &ExecCtx{}
+var _ function.ExecCtx = &ExecCtx{}
 
-func (c *ExecCtx) Logger() *zap.SugaredLogger        { return c.log }
-func (c *ExecCtx) IngestCtrl() *ingestController     { return c.ingestCtrl }
-func (c *ExecCtx) ServerCtrl() *serverController     { return c.serverCtrl }
-func (c *ExecCtx) AppCtrl() *appController           { return c.appCtrl }
-func (c *ExecCtx) FunctionCtrl() *functionController { return c.functionCtrl }
+func (c *ExecCtx) Logger() *zap.SugaredLogger       { return c.log }
+func (c *ExecCtx) IngestCtrl() IngestController     { return c.ingestCtrl }
+func (c *ExecCtx) ServerCtrl() ServerController     { return c.serverCtrl }
+func (c *ExecCtx) AppCtrl() AppController           { return c.appCtrl }
+func (c *ExecCtx) FunctionCtrl() FunctionController { return c.functionCtrl }
 
 func (c *ExecCtx) Server() server.Server {
 	if c.serverCtrl != nil {
@@ -79,10 +82,10 @@ func (c *ExecCtx) PathPrefix(override ...string) string {
 	seg := make([]string, 0, 2)
 
 	if c.serverCtrl != nil {
-		seg = append(seg, c.serverCtrl.server.Config().Name)
+		seg = append(seg, c.serverCtrl.Server().Config().Name)
 	}
 	if c.appCtrl != nil {
-		seg = append(seg, c.appCtrl.app.Config().Name)
+		seg = append(seg, c.appCtrl.App().Config().Name)
 	}
 	if len(override) > 0 {
 		if len(seg) < len(override) {
@@ -106,38 +109,40 @@ func (c *ExecCtx) WithLogger(l *zap.SugaredLogger) *ExecCtx {
 	return &copy
 }
 
-func (c *ExecCtx) WithIngestCtrl(ingestCtrl *ingestController) *ExecCtx {
+func (c *ExecCtx) WithIngestCtrl(ingestCtrl IngestController) *ExecCtx {
 	copy := *c
 	copy.ingestCtrl = ingestCtrl
 	return &copy
 }
 
-func (c *ExecCtx) WithServerCtrl(serverCtrl *serverController) *ExecCtx {
+func (c *ExecCtx) WithServerCtrl(serverCtrl ServerController) *ExecCtx {
 	copy := *c
 	copy.serverCtrl = serverCtrl
 	return &copy
 }
 
-func (c *ExecCtx) WithAppCtrl(appCtrl *appController) *ExecCtx {
+func (c *ExecCtx) WithAppCtrl(appCtrl AppController) *ExecCtx {
 	copy := *c
 	copy.appCtrl = appCtrl
 	return &copy
 }
 
-func (c *ExecCtx) WithFunctionCtrl(functionCtrl *functionController) *ExecCtx {
+func (c *ExecCtx) WithFunctionCtrl(functionCtrl FunctionController) *ExecCtx {
 	copy := *c
 	copy.functionCtrl = functionCtrl
 	return &copy
 }
 
 type volumeRegistry struct {
-	ingestCtrl *ingestController
+	ingestCtrl IngestController
 }
+
+var _ volume.Registry = &volumeRegistry{}
 
 func (reg *volumeRegistry) Get(name string) (volume.Volume, bool) {
 	if reg.ingestCtrl == nil {
 		return nil, false
 	}
-	vol, ok := reg.ingestCtrl.volumes[name]
+	vol, ok := reg.ingestCtrl.Volumes()[name]
 	return vol, ok
 }

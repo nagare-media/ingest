@@ -29,9 +29,16 @@ import (
 	"github.com/nagare-media/ingest/pkg/function/manifest"
 )
 
+type FunctionController interface {
+	Controller
+	Function() function.Function
+}
+
 type functionController struct {
 	function function.Function
 }
+
+var _ FunctionController = &functionController{}
 
 func NewFunctionController(cfg v1alpha1.Function) (*functionController, error) {
 	// create function

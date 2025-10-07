@@ -28,12 +28,19 @@ import (
 	"github.com/nagare-media/ingest/pkg/config/v1alpha1"
 )
 
-type appController struct {
-	app                 app.App
-	functionControllers []Controller
+type AppController interface {
+	Controller
+	App() app.App
 }
 
-func NewAppController(cfg v1alpha1.App) (*appController, error) {
+type appController struct {
+	app                 app.App
+	functionControllers []FunctionController
+}
+
+var _ AppController = &appController{}
+
+func NewAppController(cfg v1alpha1.App) (AppController, error) {
 	// create app
 	app, err := newApp(cfg)
 	if err != nil {
@@ -41,7 +48,7 @@ func NewAppController(cfg v1alpha1.App) (*appController, error) {
 	}
 
 	// create function controllers
-	functionCtrl := make([]Controller, len(cfg.Functions))
+	functionCtrl := make([]FunctionController, len(cfg.Functions))
 	functionNameExists := make(map[string]bool)
 	for i, functionCfg := range cfg.Functions {
 		name := functionCfg.Name

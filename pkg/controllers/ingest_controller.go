@@ -28,12 +28,19 @@ import (
 	"github.com/nagare-media/ingest/pkg/volume/null"
 )
 
-type ingestController struct {
-	volumes           map[string]volume.Volume
-	serverControllers []Controller
+type IngestController interface {
+	Controller
+	Volumes() map[string]volume.Volume
 }
 
-func NewIngestController(cfg v1alpha1.Config) (*ingestController, error) {
+type ingestController struct {
+	volumes           map[string]volume.Volume
+	serverControllers []ServerController
+}
+
+var _ IngestController = &ingestController{}
+
+func NewIngestController(cfg v1alpha1.Config) (IngestController, error) {
 	// create volumes
 	volumes := make(map[string]volume.Volume)
 	for _, volCfg := range cfg.Volumes {
@@ -50,7 +57,7 @@ func NewIngestController(cfg v1alpha1.Config) (*ingestController, error) {
 	}
 
 	// create server controllers
-	serverCtrl := make([]Controller, len(cfg.Servers))
+	serverCtrl := make([]ServerController, len(cfg.Servers))
 	serverNameExists := make(map[string]bool)
 	for i, srvCfg := range cfg.Servers {
 		name := srvCfg.Name
@@ -97,17 +104,21 @@ func (c *ingestController) Exec(ctx context.Context, execCtx *ExecCtx) error {
 	subControllerGroup := NewGroupController(GroupControllerOpts{}, c.serverControllers...)
 	err := subControllerGroup.Exec(ctx, execCtx)
 
-	log.Info("deinitialize volumes")
+	log.Info("finalize volumes")
 	for _, vol := range c.volumes {
-		errvol := vol.Deinit(execCtx)
+		errvol := vol.Finalize(execCtx)
 		if errvol != nil {
-			log.Errorw("ingestController: deinitializing volume failed", "error", errvol)
+			log.Errorw("ingestController: finalizing volume failed", "error", errvol)
 			err = errvol
 		}
 	}
 
 	log.Info("shutdown ingest controller")
 	return err
+}
+
+func (c *ingestController) Volumes() map[string]volume.Volume {
+	return c.volumes
 }
 
 func newVolume(cfg v1alpha1.Volume) (volume.Volume, error) {

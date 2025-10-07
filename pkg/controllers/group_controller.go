@@ -23,8 +23,8 @@ import (
 	"sync/atomic"
 )
 
-type groupController struct {
-	controllers []Controller
+type groupController[T Controller] struct {
+	controllers []T
 	opts        GroupControllerOpts
 }
 
@@ -32,30 +32,30 @@ type GroupControllerOpts struct {
 	StopAllOnError bool
 }
 
-func NewGroupController(opts GroupControllerOpts, ctrl ...Controller) *groupController {
+func NewGroupController[T Controller](opts GroupControllerOpts, ctrl ...T) *groupController[T] {
 	if ctrl == nil {
-		ctrl = make([]Controller, 0)
+		ctrl = make([]T, 0)
 	}
 
-	return &groupController{
+	return &groupController[T]{
 		controllers: ctrl,
 		opts:        opts,
 	}
 }
 
-func (c *groupController) IsZero() bool {
+func (c *groupController[T]) IsZero() bool {
 	return c.IsEmpty()
 }
 
-func (c *groupController) IsEmpty() bool {
+func (c *groupController[T]) IsEmpty() bool {
 	return len(c.controllers) == 0
 }
 
-func (c *groupController) Add(ctrl Controller) {
+func (c *groupController[T]) Add(ctrl T) {
 	c.controllers = append(c.controllers, ctrl)
 }
 
-func (c *groupController) Exec(ctx context.Context, execCtx *ExecCtx) error {
+func (c *groupController[T]) Exec(ctx context.Context, execCtx *ExecCtx) error {
 	log := execCtx.Logger()
 	errCount := int32(0)
 	wg := sync.WaitGroup{}

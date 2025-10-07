@@ -26,10 +26,17 @@ import (
 	"github.com/nagare-media/ingest/pkg/server/http"
 )
 
+type ServerController interface {
+	Controller
+	Server() server.Server
+}
+
 type serverController struct {
 	server         server.Server
-	appControllers []*appController
+	appControllers []AppController
 }
+
+var _ ServerController = &serverController{}
 
 func NewServerController(cfg v1alpha1.Server) (*serverController, error) {
 	// create server
@@ -39,7 +46,7 @@ func NewServerController(cfg v1alpha1.Server) (*serverController, error) {
 	}
 
 	// create app controllers
-	appCtrl := make([]*appController, len(cfg.Apps))
+	appCtrl := make([]AppController, len(cfg.Apps))
 	appNameExists := make(map[string]bool)
 	for i, appCfg := range cfg.Apps {
 		name := appCfg.Name
@@ -89,7 +96,7 @@ func (c *serverController) Exec(ctx context.Context, execCtx *ExecCtx) error {
 
 	log.Info("start sub-controllers")
 	ctx, cancel := context.WithCancel(ctx)
-	subControllerGroup := NewGroupController(GroupControllerOpts{})
+	subControllerGroup := NewGroupController[Controller](GroupControllerOpts{})
 	for _, appCtrl := range c.appControllers {
 		subControllerGroup.Add(appCtrl)
 	}

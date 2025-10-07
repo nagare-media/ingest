@@ -278,11 +278,11 @@ volumes:
     # @required
     name: data
 
-    # fs indicates that this is a file system volume
+    # fs indicates that this is a filesystem volume
     #
     # mutually exclusive to: mem, null
     fs:
-      # path to the location on the file system where ingested files should be stored#
+      # path to the location on the filesystem where ingested files should be stored
       #
       # @type string
       # @required

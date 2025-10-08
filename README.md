@@ -123,23 +123,45 @@ This software was presented at the "13th ACM Multimedia Systems Conference, 2022
 
 > Matthias Neugebauer. 2022. Nagare Media Ingest: A Server for Live CMAF Ingest Workflows. In *13th ACM Multimedia Systems Conference (MMSys ’22), June 14–17, 2022, Athlone, Ireland.* ACM, New York, NY, USA, 6 pages. <https://doi.org/10.1145/3524273.3532888>
 
+> Matthias Neugebauer. 2025. Nagare Media Ingest: A System for Multimedia Ingest Workflows. In *arXiv preprint arXiv:2509.11972 [cs.MM], 2025.* arXiv, 16 pages. <https://doi.org/10.48550/arXiv.2509.11972>
+
 ```
 @inproceedings{10.1145/3524273.3532888,
   author = {Neugebauer, Matthias},
-  title = {Nagare Media Ingest: A Server for Live CMAF Ingest Workflows},
+  title = {Nagare {{Media Ingest}}: {{A Server}} for {{Live CMAF Ingest Workflows}}},
   year = {2022},
-  isbn = {9781450392839},
+  month = jun,
+  isbn = {978-1-4503-9283-9},
   publisher = {Association for Computing Machinery},
   address = {New York, NY, USA},
   url = {https://doi.org/10.1145/3524273.3532888},
   doi = {10.1145/3524273.3532888},
   abstract = {New media ingest protocols have been presented recently. SRT and RIST compete with old protocols such as RTMP while the DASH-IF specified an HTTP-based ingest protocol for CMAF formatted media that lends itself towards delivery protocols such as DASH and HLS. Additionally, use cases of media ingest workflows can vary widely. This makes implementing generic and flexible tools for ingest workflows a hard challenge. A monolithic approach limits adoption if the implementation does not fit the use case completely. We propose a new design for ingest servers that splits responsibilities into multiple components running concurrently. This design enables flexible ingest deployments as is discussed for various use cases. We have implemented this design in the open source software Nagare Media Ingest for the new DASH-IF ingest protocol.},
-  booktitle = {Proceedings of the 13th ACM Multimedia Systems Conference},
-  pages = {210–215},
+  booktitle = {Proceedings of the 13th {{ACM Multimedia Systems Conference}}},
+  pages = {210--215},
   numpages = {6},
   keywords = {video streaming, server, protocol, dash, CMAF},
   location = {Athlone, Ireland},
   series = {MMSys '22}
+}
+```
+
+```
+@misc{10.48550/arXiv.2509.11972,
+  author = {Neugebauer, Matthias},
+  title = {Nagare {{Media Ingest}}: {{A System}} for {{Multimedia Ingest Workflows}}},
+  year = {2025},
+  month = sep,
+  publisher = {arXiv},
+  number = {arXiv:2509.11972 [cs.MM]},
+  eprint = {2509.11972},
+  primaryclass = {cs.MM},
+  archiveprefix = {arXiv},
+  url = {https://arxiv.org/abs/2509.11972},
+  doi = {10.48550/arXiv.2509.11972},
+  abstract = {Ingesting multimedia data is usually the first step of multimedia workflows. For this purpose, various streaming protocols have been proposed for live and file-based content. For instance, SRT, RIST, DASH-IF Live Media Ingest Protocol and MOQT have been introduced in recent years. At the same time, the number of use cases has only proliferated by the move to cloud- and edge-computing environments. Multimedia systems now have to handle this complexity in order to stay relevant for today's workflows. This technical report discusses implementation details of nagare media ingest, an open source system for ingesting multimedia data into multimedia workflows. In contrast to existing solutions, nagare media ingest splits up the responsibilities of the ingest process. Users configure multiple concurrently running components that work together to implement a particular ingest workflow. As such, the design of nagare media ingest allows for great flexibility as components can be selected to fit the desired use case.},
+  numpages = {16},
+  keywords = {multimedia streaming, multimedia ingest, dash-if ingest, protocol, cmaf, dash, hls, low latency}
 }
 ```
 

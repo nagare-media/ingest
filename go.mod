@@ -13,7 +13,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
-	github.com/valyala/fasthttp v1.66.0
+	github.com/valyala/fasthttp v1.67.0
 	go.uber.org/zap v1.27.0
 )
 

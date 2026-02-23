@@ -3,7 +3,7 @@ module github.com/nagare-media/ingest
 go 1.25
 
 require (
-	github.com/Eyevinn/mp4ff v0.50.0
+	github.com/Eyevinn/mp4ff v0.51.0
 	github.com/cloudevents/sdk-go/v2 v2.16.2
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/gobwas/glob v0.2.3

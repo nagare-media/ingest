@@ -46,9 +46,7 @@ preferred-citation:
   collection-title: Proceedings of the 13th ACM Multimedia Systems Conference
   collection-type: proceedings
   conference:
-    name: ACM Multimedia Systems Conference 2022
-    date-start: "2022-06-14"
-    date-end: "2022-06-17"
+    name: MMSys '22
   location:
     city: Athlone
     country: IE

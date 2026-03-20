@@ -18,17 +18,20 @@ contact:
     orcid: https://orcid.org/0000-0002-1363-0373
     affiliation: University of Münster
 repository-code: https://github.com/nagare-media/ingest
-repository-artifact: https://github.com/nagare-media/ingest/pkgs/container/ingest
+repository-artifact: https://github.com/orgs/nagare-media/packages?repo_name=ingest
 license: Apache-2.0
 keywords:
-  - multimedia streaming
-  - multimedia ingest
-  - dash-if ingest
-  - protocol
   - cmaf
   - dash
+  - go
   - hls
-  - low latency
+  - ingest
+  - livestreaming
+  - media
+  - mpeg-dash
+  - opencast
+  - streaming
+  - video
 preferred-citation:
   type: conference-paper
   title: "Nagare Media Ingest: A Server for Live CMAF Ingest Workflows"
@@ -122,7 +125,7 @@ references:
     publisher:
       name: arXiv
     pages: 16
-    copyright: "© 2022 Copyright held by the author"
+    copyright: "© 2022 Copyright held by the author."
     license: CC-BY-4.0
     keywords:
       - multimedia streaming

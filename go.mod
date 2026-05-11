@@ -13,15 +13,15 @@ require (
 	github.com/mattn/go-isatty v0.0.22
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
-	github.com/valyala/fasthttp v1.70.0
-	go.uber.org/zap v1.27.1
+	github.com/valyala/fasthttp v1.71.0
+	go.uber.org/zap v1.28.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.5 // indirect
+	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

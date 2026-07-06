@@ -1,19 +1,19 @@
 module github.com/nagare-media/ingest
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/Eyevinn/mp4ff v0.52.0
 	github.com/cloudevents/sdk-go/v2 v2.16.2
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/gobwas/glob v0.2.3
-	github.com/gofiber/fiber/v2 v2.52.13
+	github.com/gofiber/fiber/v2 v2.52.14
 	github.com/google/uuid v1.6.0
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf
 	github.com/mattn/go-isatty v0.0.22
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
-	github.com/valyala/fasthttp v1.71.0
+	github.com/valyala/fasthttp v1.72.0
 	go.uber.org/zap v1.28.0
 )
 
@@ -36,6 +36,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/sys v0.41.0 // indirect
-	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
+	golang.org/x/text v0.38.0 // indirect
 )

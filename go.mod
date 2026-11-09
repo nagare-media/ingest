@@ -3,7 +3,7 @@ module github.com/nagare-media/ingest
 go 1.26.0
 
 require (
-	github.com/Eyevinn/mp4ff v0.61.0
+	github.com/Eyevinn/mp4ff v0.62.0
 	github.com/cloudevents/sdk-go/v2 v2.16.2
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/gobwas/glob v0.2.3
@@ -11,7 +11,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf
 	github.com/mattn/go-isatty v0.0.24
-	github.com/spf13/pflag v1.0.10
+	github.com/spf13/pflag v1.1.0
 	github.com/spf13/viper v1.21.0
 	github.com/valyala/fasthttp v1.77.0
 	go.uber.org/zap v1.28.0
